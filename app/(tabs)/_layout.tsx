@@ -15,7 +15,7 @@ export default function TabsLayout() {
         name="orders"
         options={{
           tabBarLabel: "Pedidos",
-          tabBarIcon: ({ focused }) => <FontAwesome name="shopping-cart" size={24} color="black" />,
+          tabBarIcon: ({ focused }) => <FontAwesome name="file-text" size={24} color="black" />,
         }}
       />
       <Tabs.Screen
@@ -25,7 +25,6 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => <FontAwesome name="shopping-cart" size={24} color="black" />,
         }}
       />
-      <Tabs.Screen name="profile" options={{ href: null }} />
     </Tabs>
   );
 }
