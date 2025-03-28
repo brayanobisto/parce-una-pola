@@ -1,36 +1,62 @@
+// TODO: Add react query for caching beers
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const BEERS = Array.from({ length: 300 }, (_, i) => ({
-  name: `Beer ${i + 1}`,
-  imageUrl:
-    "https://media.istockphoto.com/id/519728153/photo/mug-of-beer.jpg?s=612x612&w=0&k=20&c=DM6bXiXQ9edkP3tqjKiZG8ztbT0-ePgorYvgJnQLUWc=",
-  brand: `Brand ${(i % 10) + 1}`, // Rotación entre 10 marcas
-  price: Math.floor(Math.random() * (20 - 5) + 5), // Precio entre 5 y 20
-  stock: Math.floor(Math.random() * 50) + 1, // Stock entre 1 y 50
-}));
+interface Beer {
+  id: number;
+  name: string;
+  brand: string;
+  price: number;
+  imageUrl: string;
+  stock: number;
+}
 
 export default function Home() {
+  const [beers, setBeers] = useState<Beer[]>([]);
+
+  useEffect(() => {
+    const fetchBeers = async () => {
+      const { data, error } = await supabase.from("beers").select();
+
+      if (error) {
+        console.error("Error fetching beers:", error);
+      } else {
+        setBeers([...beers, ...(data as Beer[])]);
+      }
+    };
+    fetchBeers();
+  }, []);
+
   return (
     <SafeAreaView className="flex-1">
       <FlatList
-        data={BEERS}
+        data={beers}
         renderItem={({ item }) => (
-          <View className="flex-1 rounded-xl bg-white shadow-md overflow-hidden">
-            <Image source={{ uri: item.imageUrl }} className="w-full h-40" />
-            <Text className="text-xl font-bold">{item.name}</Text>
-            <Text className="text-gray-500">{item.brand}</Text>
-            <Text className="text-lg font-bold">
-              {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                Number(item.price)
-              )}
-            </Text>
+          <View className="flex-1 rounded-xl bg-white shadow-md overflow-hidden flex-row pr-4 flex-wrap">
+            <Image source={{ uri: item.imageUrl }} className="aspect-square w-40 h-40" />
+            <View className="flex-1 py-4 px-4 border-l border-gray-200">
+              <Text className="text-xl font-bold flex-shrink" numberOfLines={2}>
+                {item.name}
+              </Text>
+              <Text className="text-gray-500">{item.brand}</Text>
+              <Text className="text-sm">{item.stock} unidades disponibles</Text>
+
+              <Text className="text-xl font-bold text-green-500">
+                {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
+                  Number(item.price)
+                )}
+              </Text>
+            </View>
           </View>
         )}
-        keyExtractor={(item) => item.name}
-        numColumns={2}
         contentContainerClassName="gap-4 p-4"
-        columnWrapperClassName="gap-4"
+        getItemLayout={(data, index) => ({
+          length: 140,
+          offset: 140 * index,
+          index,
+        })}
       />
     </SafeAreaView>
   );
