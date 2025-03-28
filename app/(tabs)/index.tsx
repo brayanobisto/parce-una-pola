@@ -23,7 +23,7 @@ export default function Home() {
       if (error) {
         console.error("Error fetching beers:", error);
       } else {
-        setBeers([...beers, ...(data as Beer[])]);
+        setBeers(data as Beer[]);
       }
     };
     fetchBeers();
@@ -34,7 +34,7 @@ export default function Home() {
       <FlatList
         data={beers}
         renderItem={({ item }) => (
-          <View className="flex-1 rounded-xl bg-white shadow-md overflow-hidden flex-row pr-4 flex-wrap">
+          <View className="flex-1 rounded-xl bg-white shadow-md overflow-hidden flex-row flex-wrap">
             <Image source={{ uri: item.imageUrl }} className="aspect-square w-40 h-40" />
             <View className="flex-1 py-4 px-4 border-l border-gray-200">
               <Text className="text-xl font-bold flex-shrink" numberOfLines={2}>
