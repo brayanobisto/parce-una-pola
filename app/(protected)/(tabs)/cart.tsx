@@ -2,9 +2,53 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
-
+import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import { Tables } from "@/types/supabase";
 export default function Cart() {
+  const [cartItems, setCartItems] = useState<Tables<"cart_items">[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      const { data, error } = await supabase.from("cart_items").select("*");
+
+      if (error) console.error("Error fetching cart items:", error);
+      else setCartItems(data);
+    };
+
+    fetchCartItems();
+
+    // Escuchar cambios en la tabla cart_items
+    const subscription = supabase
+      .channel("cart_items")
+      .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
+        console.log("Cambio detectado:", payload);
+
+        setCartItems((prevCartItems) => {
+          if (payload.eventType === "INSERT") {
+            return [...prevCartItems, payload.new as Tables<"cart_items">];
+          }
+
+          if (payload.eventType === "UPDATE") {
+            return prevCartItems.map((item) =>
+              item.id === payload.new.id ? (payload.new as Tables<"cart_items">) : item
+            );
+          }
+
+          if (payload.eventType === "DELETE") {
+            return prevCartItems.filter((item) => item.id !== payload.old.id);
+          }
+
+          return prevCartItems;
+        });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white p-4">
