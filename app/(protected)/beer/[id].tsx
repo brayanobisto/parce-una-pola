@@ -4,28 +4,21 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Tables } from "@/types/supabase";
 
-interface Beer {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
-}
 export default function Beer() {
-  const [beer, setBeer] = useState<Beer>();
-  const { id } = useLocalSearchParams();
+  const [beer, setBeer] = useState<Tables<"beers">>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
 
   useEffect(() => {
     const fetchBeers = async () => {
-      const { data, error } = await supabase.from("beers").select("*").eq("id", id).single();
+      const { data, error } = await supabase.from("beers").select("*").eq("id", Number(id)).single();
 
       if (error) {
         console.error("Error fetching beers:", error);
       } else {
-        setBeer(data as unknown as Beer);
+        setBeer(data);
       }
     };
     fetchBeers();

@@ -1,21 +1,13 @@
 // TODO: Add react query for caching beers
 import { supabase } from "@/lib/supabase";
+import { Tables } from "@/types/supabase";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface Beer {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
-  imageUrl: string;
-  stock: number;
-}
-
 export default function Home() {
-  const [beers, setBeers] = useState<Beer[]>([]);
+  const [beers, setBeers] = useState<Tables<"beers">[]>([]);
 
   useEffect(() => {
     const fetchBeers = async () => {
@@ -24,7 +16,7 @@ export default function Home() {
       if (error) {
         console.error("Error fetching beers:", error);
       } else {
-        setBeers(data as Beer[]);
+        setBeers(data);
       }
     };
     fetchBeers();
