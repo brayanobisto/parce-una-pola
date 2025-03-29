@@ -78,7 +78,7 @@ export default function Beer() {
         </View>
       </ScrollView>
       <View className="p-4">
-        <TouchableOpacity className="bg-green-500 rounded-md py-4 mt-auto">
+        <TouchableOpacity className="bg-green-500 rounded-xl py-4 mt-auto">
           <Text className="text-white text-center font-bold text-xl">Agregar al carrito</Text>
         </TouchableOpacity>
       </View>
