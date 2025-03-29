@@ -1,3 +1,4 @@
+// TODO: Ask for user name
 import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
@@ -8,6 +9,12 @@ export default function Index() {
 
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInAnonymously();
+
+    const { data: userData, error: userError } = await supabase.auth.updateUser({
+      data: {
+        email: "test@test.com",
+      },
+    });
 
     if (!error) {
       router.replace("/(protected)/(tabs)");
