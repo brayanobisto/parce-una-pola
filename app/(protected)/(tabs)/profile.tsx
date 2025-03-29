@@ -10,11 +10,9 @@ export default function Profile() {
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
 
-    if (error) {
-      console.error("Error al cerrar sesión:", error);
-    } else {
+    if (!error) {
       setUser(null);
-      router.replace("/");
+      router.replace("/sign-in");
     }
   };
 

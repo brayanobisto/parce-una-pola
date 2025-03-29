@@ -7,15 +7,8 @@ export default function ProtectedLayout() {
   const user = useUserStore((state) => state.user);
 
   if (!user) {
-    return <Redirect href="/" />;
+    return <Redirect href="/sign-in" />;
   }
 
-  return (
-    <Fragment>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="beer/[id]" />
-      </Stack>
-    </Fragment>
-  );
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

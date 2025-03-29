@@ -35,9 +35,7 @@ export default function RootLayout() {
   return (
     <Fragment>
       <StatusBar style="inverted" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(protected)" />
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }} />
     </Fragment>
   );
 }
