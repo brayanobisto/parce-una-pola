@@ -5,11 +5,12 @@ import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tables } from "@/types/supabase";
-
+import { useUserStore } from "@/store";
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     const fetchBeer = async () => {
@@ -27,7 +28,7 @@ export default function Beer() {
   const handleAddToCart = async () => {
     const { data, error } = await supabase
       .from("cart_items")
-      .upsert({ addedBy: "8a10d97d-841e-4658-891c-330a3cd01f37", beerId: Number(id), quantity: 1 });
+      .upsert({ addedBy: user?.id, beerId: Number(id), quantity: 1 });
 
     if (error) {
       console.error("Error adding to cart:", error);

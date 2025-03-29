@@ -1,16 +1,15 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import "@/global.css";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, SafeAreaView } from "react-native";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
 
 export default function RootLayout() {
   const isLoading = useUserStore((state) => state.isLoading);
   const setIsLoading = useUserStore((state) => state.setIsLoading);
-  const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
 
   useEffect(() => {
@@ -19,16 +18,25 @@ export default function RootLayout() {
         data: { user },
       } = await supabase.auth.getUser();
 
+      setUser(user);
+      setIsLoading(false);
+
       if (user) {
         router.replace("/(protected)/(tabs)");
       } else {
         router.replace("/");
       }
-
-      setIsLoading(false);
     };
     fetchUser();
   }, []);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-white justify-center items-center">
+        <ActivityIndicator className="text-green-500" size="large" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <Fragment>
