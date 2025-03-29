@@ -5,9 +5,13 @@ import { StatusBar } from "expo-status-bar";
 import "@/global.css";
 import { ActivityIndicator } from "react-native";
 import { supabase } from "@/lib/supabase";
+import { useUserStore } from "@/store";
 
 export default function RootLayout() {
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = useUserStore((state) => state.isLoading);
+  const setIsLoading = useUserStore((state) => state.setIsLoading);
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   useEffect(() => {
     const fetchUser = async () => {
