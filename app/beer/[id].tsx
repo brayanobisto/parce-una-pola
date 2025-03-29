@@ -68,7 +68,7 @@ export default function Beer() {
 
           <View>
             <Text className="font-medium text-lg">Descripción</Text>
-            <Text className="text-gray-500 text-sm">
+            <Text className="text-gray-500">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam magni dolorem soluta, quas eos impedit,
               laudantium aperiam ipsa incidunt fugit asperiores iste perspiciatis repellat id harum modi quo alias aut.
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam magni dolorem soluta, quas eos impedit,
