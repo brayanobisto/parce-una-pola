@@ -12,7 +12,7 @@ export default function Beer() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchBeers = async () => {
+    const fetchBeer = async () => {
       const { data, error } = await supabase.from("beers").select("*").eq("id", Number(id)).single();
 
       if (error) {
@@ -21,8 +21,20 @@ export default function Beer() {
         setBeer(data);
       }
     };
-    fetchBeers();
+    fetchBeer();
   }, []);
+
+  const handleAddToCart = async () => {
+    const { data, error } = await supabase
+      .from("cart_items")
+      .upsert({ addedBy: "8a10d97d-841e-4658-891c-330a3cd01f37", beerId: Number(id), quantity: 1 });
+
+    if (error) {
+      console.error("Error adding to cart:", error);
+    } else {
+      console.log("Beer added to cart:", data);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -71,7 +83,7 @@ export default function Beer() {
         </View>
       </ScrollView>
       <View className="p-4">
-        <TouchableOpacity className="bg-green-500 rounded-xl py-4 mt-auto">
+        <TouchableOpacity className="bg-green-500 rounded-xl py-4 mt-auto" onPress={handleAddToCart}>
           <Text className="text-white text-center font-bold text-xl">Agregar al carrito</Text>
         </TouchableOpacity>
       </View>
