@@ -18,6 +18,7 @@ export default function TabsLayout() {
           height: 75,
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
+          borderTopWidth: 0,
         },
       }}
     >
