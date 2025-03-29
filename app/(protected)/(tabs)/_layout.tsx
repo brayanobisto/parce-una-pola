@@ -50,6 +50,16 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarLabel: "Perfil",
+
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome name="user" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
