@@ -12,10 +12,6 @@ export default function RootLayout() {
   const setIsLoading = useUserStore((state) => state.setIsLoading);
   const setUser = useUserStore((state) => state.setUser);
 
-  const store = useUserStore((state) => state);
-
-  console.log("store", store);
-
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -24,12 +20,6 @@ export default function RootLayout() {
 
       setUser(user);
       setIsLoading(false);
-
-      if (user) {
-        router.replace("/(protected)/(tabs)");
-      } else {
-        router.replace("/");
-      }
     };
     fetchUser();
   }, []);

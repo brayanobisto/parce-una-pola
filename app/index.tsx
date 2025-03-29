@@ -2,9 +2,11 @@
 import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
+import { useUserStore } from "@/store";
 
 export default function Index() {
+  const user = useUserStore((state) => state.user);
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -20,6 +22,10 @@ export default function Index() {
       router.replace("/(protected)/(tabs)");
     }
   };
+
+  if (user) {
+    return <Redirect href="/(protected)/(tabs)" />;
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white justify-center items-center">
