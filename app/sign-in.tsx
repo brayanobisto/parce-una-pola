@@ -6,6 +6,7 @@ import { Redirect, useRouter } from "expo-router";
 import { useUserStore } from "@/store";
 
 export default function Index() {
+  const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
   const router = useRouter();
 
@@ -19,6 +20,7 @@ export default function Index() {
     });
 
     if (!error) {
+      setUser(userData.user);
       router.replace("/(protected)/(tabs)");
     }
   };
