@@ -6,8 +6,6 @@ import { useUserStore } from "@/store";
 export default function ProtectedLayout() {
   const user = useUserStore((state) => state.user);
 
-  console.log("user", user);
-
   if (!user) {
     return <Redirect href="/sign-in" />;
   }
