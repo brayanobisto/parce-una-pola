@@ -1,6 +1,10 @@
 import { Tabs } from "expo-router";
 import colors from "tailwindcss/colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import tailwindConfig from "@/tailwind.config";
+import resolveConfig from "tailwindcss/resolveConfig";
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 export default function TabsLayout() {
   return (
@@ -9,6 +13,9 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.green[500],
         tabBarInactiveTintColor: colors.gray[500],
+        tabBarStyle: {
+          backgroundColor: colors.white,
+        },
       }}
     >
       <Tabs.Screen

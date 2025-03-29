@@ -31,12 +31,12 @@ export default function Home() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <FlatList
         data={beers}
         renderItem={({ item }) => (
           <Link href={`/beer/${item.id}`}>
-            <View className="flex-1 rounded-xl bg-white shadow-md overflow-hidden flex-row flex-wrap">
+            <View className="flex-1 rounded-xl bg-white shadow-md shadow-black/60 overflow-hidden flex-row flex-wrap">
               <Image source={{ uri: item.imageUrl }} className="aspect-square w-40 h-40" />
               <View className="flex-1 py-4 px-4 border-l border-gray-200">
                 <Text className="text-xl font-bold flex-shrink" numberOfLines={2}>
