@@ -63,17 +63,44 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "cart_items_addedBy_fkey"
+            columns: ["addedBy"]
+            isOneToOne: false
+            referencedRelation: "cart_items_view"
+            referencedColumns: ["addedBy"]
+          },
+          {
             foreignKeyName: "cart_items_beerId_fkey"
             columns: ["beerId"]
             isOneToOne: false
             referencedRelation: "beers"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "cart_items_beerId_fkey"
+            columns: ["beerId"]
+            isOneToOne: false
+            referencedRelation: "cart_items_view"
+            referencedColumns: ["beerId"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      cart_items_view: {
+        Row: {
+          addedBy: string | null
+          beerBrand: string | null
+          beerId: number | null
+          beerImageUrl: string | null
+          beerName: string | null
+          beerPrice: number | null
+          id: number | null
+          quantity: number | null
+          userData: Json | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
