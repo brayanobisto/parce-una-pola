@@ -14,7 +14,7 @@ export const Input: FC<InputProps> = memo((props) => {
   }, []);
 
   return (
-    <Pressable className="bg-white rounded-md py-1 px-3 shadow-xl w-full flex-shrink" onPress={handlePress}>
+    <Pressable className="bg-white rounded-md py-1 px-3 shadow-lg w-full flex-shrink" onPress={handlePress}>
       <Text className="text-xs font-semibold text-gray-500 uppercase">{label}</Text>
       <TextInput
         ref={inputRef}

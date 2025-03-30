@@ -5,18 +5,21 @@ import { Redirect, useRouter } from "expo-router";
 import { useUserStore } from "@/store";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import { useState } from "react";
 
 export default function Index() {
   const setUser = useUserStore((state) => state.setUser);
   const user = useUserStore((state) => state.user);
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInAnonymously();
 
     const { data: userData, error: userError } = await supabase.auth.updateUser({
       data: {
-        email: "test@test.com",
+        name: `${name} ${lastName}`,
       },
     });
 
@@ -33,14 +36,16 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1 bg-white p-4">
       <Text className="text-4xl text-center font-bold mb-2">Bienvenido a {`\n`}Parce, una pola</Text>
-      <Text className="mb-4 text-lg">Por favor, ingresa tus datos para continuar</Text>
+      <Text className="mb-6 text-lg">Por favor, ingresa tus datos para continuar</Text>
 
       <View className="flex-row gap-2">
-        <Input label="Nombre" />
-        <Input label="Apellido" />
+        <Input label="Nombre" value={name} onChangeText={setName} />
+        <Input label="Apellido" value={lastName} onChangeText={setLastName} />
       </View>
 
-      <Button onPress={handleLogin}>Continuar</Button>
+      <Button onPress={handleLogin} disabled={!name || !lastName}>
+        Continuar
+      </Button>
     </SafeAreaView>
   );
 }
