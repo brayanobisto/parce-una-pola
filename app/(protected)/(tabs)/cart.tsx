@@ -27,10 +27,14 @@ export default function Cart() {
             />
             <View className="flex-1 py-4 px-4 border-l border-gray-200">
               <Text className="text-xl font-bold flex-shrink" numberOfLines={1}>
-                Club Colombia Dorada 330ml lata
+                {item.beerName}
               </Text>
-              <Text className="text-gray-500">Club Colombia</Text>
-              <Text className="text-sm mb-2">200 unidades disponibles</Text>
+              <Text className="text-gray-500">{item.beerBrand}</Text>
+              <Text className="text-sm mb-2">
+                {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
+                  item.beerPrice!
+                )}
+              </Text>
 
               <View className="flex-row justify-between mb-1">
                 <View className="flex-row items-center gap-2">
@@ -49,8 +53,6 @@ export default function Cart() {
                   )}
                 </Text>
               </View>
-
-              <Text className="text-xs text-gray-500">Agregado por Brayan Obispo</Text>
             </View>
           </View>
         )}
