@@ -1,6 +1,6 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -10,6 +10,7 @@ import { Button } from "@/components/Button";
 
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
+  const [quantity, setQuantity] = useState(1);
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const user = useUserStore((state) => state.user);
@@ -18,26 +19,38 @@ export default function Beer() {
     const fetchBeer = async () => {
       const { data, error } = await supabase.from("beers").select("*").eq("id", Number(id)).single();
 
-      if (error) {
-        console.error("Error fetching beers:", error);
-      } else {
+      if (!error) {
         setBeer(data);
       }
     };
+
     fetchBeer();
   }, []);
 
-  const handleAddToCart = async () => {
-    const { data, error } = await supabase
+  const handleAddToCart = useCallback(async () => {
+    const { data: cartItem } = await supabase
       .from("cart_items")
-      .upsert({ addedBy: user?.id, beerId: Number(id), quantity: 1 });
+      .select("quantity")
+      .eq("addedBy", user?.id!)
+      .eq("beerId", Number(id))
+      .single();
 
-    if (error) {
-      console.error("Error adding to cart:", error);
+    const newQuantity = (cartItem?.quantity ?? 0) + quantity;
+
+    if (cartItem) {
+      const { data, error } = await supabase
+        .from("cart_items")
+        .update({ quantity: newQuantity })
+        .eq("addedBy", user?.id!)
+        .eq("beerId", Number(id));
     } else {
-      console.log("Beer added to cart:", data);
+      const { data, error } = await supabase
+        .from("cart_items")
+        .insert({ addedBy: user?.id!, beerId: Number(id), quantity: newQuantity })
+        .select()
+        .single();
     }
-  };
+  }, [user?.id, id, quantity]);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -55,11 +68,17 @@ export default function Beer() {
             <View className="gap-2">
               <Text className="font-medium text-green-500">Cantidad</Text>
               <View className="flex-row items-center gap-2">
-                <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
+                <TouchableOpacity
+                  className="bg-transparent p-2 rounded-md border border-green-500"
+                  onPress={() => setQuantity(Math.max(quantity - 1, 1))}
+                >
                   <FontAwesome name="minus" size={14} color="black" />
                 </TouchableOpacity>
-                <Text className="font-medium mx-6 text-2xl">1</Text>
-                <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
+                <Text className="font-medium mx-6 text-2xl">{quantity}</Text>
+                <TouchableOpacity
+                  className="bg-transparent p-2 rounded-md border border-green-500"
+                  onPress={() => setQuantity(quantity + 1)}
+                >
                   <FontAwesome name="plus" size={14} color="black" />
                 </TouchableOpacity>
               </View>
