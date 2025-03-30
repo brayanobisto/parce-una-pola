@@ -2,10 +2,10 @@ import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
-import { useCartItems } from "@/hooks/useCartItems";
+import { useCartItemsView } from "@/hooks/userCartItemsView";
 
 export default function Cart() {
-  const cartItems = useCartItems();
+  const cartItems = useCartItemsView();
   const router = useRouter();
 
   return (
@@ -16,12 +16,12 @@ export default function Cart() {
       <Text className="text-4xl font-medium my-4">Carrito</Text>
       <FlatList
         data={cartItems}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.cartItemId?.toString()!}
         renderItem={({ item }) => (
           <View className="rounded-xl bg-white shadow-md shadow-black/60 overflow-hidden flex-row flex-wrap">
             <Image
               source={{
-                uri: "https://carulla.vtexassets.com/arquivos/ids/18475015/CERVEZA-LATA-DORADA-102127_a.jpg?v=638665918223470000",
+                uri: item.beerImageUrl!,
               }}
               className="aspect-square w-36 h-36"
             />

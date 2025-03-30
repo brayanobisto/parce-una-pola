@@ -96,6 +96,7 @@ export type Database = {
           beerPrice: number | null
           beerStock: number | null
           cartItemAddedBy: string | null
+          cartItemCreatedAt: string | null
           cartItemId: number | null
           cartItemQuantity: number | null
           userData: Json | null

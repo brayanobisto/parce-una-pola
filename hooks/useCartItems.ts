@@ -8,8 +8,9 @@ export const useCartItems = () => {
     const fetchCartItems = async () => {
       const { data, error } = await supabase.from("cart_items").select("*");
 
-      if (error) console.error("Error fetching cart items:", error);
-      else setCartItems(data);
+      if (!error) {
+        setCartItems(data);
+      }
     };
 
     fetchCartItems();
