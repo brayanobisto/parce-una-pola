@@ -1,24 +1,17 @@
 // TODO: Add react query for caching beers
 import { supabase } from "@/lib/supabase";
-import { Tables } from "@/types/supabase";
+import { Tables } from "@/lib/supabase/types";
 import { useEffect, useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BeerCard, CARD_HEIGHT } from "@/components/BeerCard";
+import { getBeers } from "@/lib/supabase/services";
 
 export default function Home() {
   const [beers, setBeers] = useState<Tables<"beers">[]>([]);
 
   useEffect(() => {
-    const fetchBeers = async () => {
-      const { data, error } = await supabase.from("beers").select();
-
-      if (!error) {
-        setBeers(data);
-      }
-    };
-
-    fetchBeers();
+    getBeers().then(setBeers);
   }, []);
 
   const renderItem = useCallback(({ item }: { item: Tables<"beers"> }) => <BeerCard beer={item} />, []);

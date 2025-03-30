@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Tables } from "@/types/supabase";
+import { Tables } from "@/lib/supabase/types";
 import { useEffect, useState } from "react";
 export const useCartItems = () => {
   const [cartItems, setCartItems] = useState<Tables<"cart_items">[]>([]);

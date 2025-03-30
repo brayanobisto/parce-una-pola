@@ -1,7 +1,7 @@
 import { FC, memo } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Tables } from "@/types/supabase";
+import { Tables } from "@/lib/supabase/types";
 
 export const CARD_HEIGHT = 140;
 

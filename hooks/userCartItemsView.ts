@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { Tables } from "@/types/supabase";
+import { Tables } from "@/lib/supabase/types";
 import { useEffect, useState, useCallback } from "react";
 
 export const useCartItemsView = () => {

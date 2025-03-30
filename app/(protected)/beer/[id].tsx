@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tables } from "@/types/supabase";
+import { Tables } from "@/lib/supabase/types";
 import { useUserStore } from "@/store";
 import { Button } from "@/components/Button";
 import { CartButton } from "@/components/CartButton";
