@@ -1,11 +1,11 @@
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { supabase } from "@/lib/supabase";
 import { Redirect, useRouter } from "expo-router";
 import { useUserStore } from "@/store";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { useState } from "react";
+import { signInAnonymously } from "@/lib/supabase/auth";
 
 export default function Index() {
   const setUser = useUserStore((state) => state.setUser);
@@ -15,18 +15,10 @@ export default function Index() {
   const [lastName, setLastName] = useState("");
 
   const handleLogin = async () => {
-    const { data, error } = await supabase.auth.signInAnonymously();
+    const user = await signInAnonymously(`${name} ${lastName}`);
 
-    const { data: userData, error: userError } = await supabase.auth.updateUser({
-      data: {
-        name: `${name} ${lastName}`,
-      },
-    });
-
-    if (!error) {
-      setUser(userData.user);
-      router.replace("/(protected)/(tabs)");
-    }
+    setUser(user);
+    router.replace("/(protected)/(tabs)");
   };
 
   if (user) {
