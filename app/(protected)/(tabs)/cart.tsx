@@ -41,7 +41,7 @@ export default function Cart() {
                   <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
                     <FontAwesome name="minus" size={14} color="black" />
                   </TouchableOpacity>
-                  <Text className="font-medium mx-6 text-2xl">1</Text>
+                  <Text className="font-medium mx-6 text-2xl">{item.cartItemQuantity}</Text>
                   <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
                     <FontAwesome name="plus" size={14} color="black" />
                   </TouchableOpacity>
@@ -49,7 +49,7 @@ export default function Cart() {
 
                 <Text className="font-medium text-2xl text-green-500">
                   {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                    3900
+                    item.beerPrice! * item.cartItemQuantity!
                   )}
                 </Text>
               </View>
