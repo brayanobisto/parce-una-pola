@@ -1,6 +1,6 @@
 import { FC, memo } from "react";
 import { Link } from "expo-router";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { Tables } from "@/types/supabase";
 
 export const CARD_HEIGHT = 140;
@@ -11,8 +11,16 @@ interface BeerCardProps {
 
 export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
   return (
-    <Link href={`/beer/${beer.id}`}>
-      <View
+    <Link
+      href={{
+        pathname: "/(protected)/beer/[id]",
+        params: {
+          id: beer.id,
+        },
+      }}
+      asChild
+    >
+      <TouchableOpacity
         className={`flex-1 rounded-xl bg-white shadow-md shadow-black/60 overflow-hidden flex-row h-[${CARD_HEIGHT}px]`}
       >
         <Image source={{ uri: beer.imageUrl }} className="aspect-square" height={CARD_HEIGHT} width={CARD_HEIGHT} />
@@ -29,7 +37,7 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
             )}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </Link>
   );
 });
