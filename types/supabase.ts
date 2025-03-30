@@ -67,7 +67,7 @@ export type Database = {
             columns: ["addedBy"]
             isOneToOne: false
             referencedRelation: "cart_items_view"
-            referencedColumns: ["addedBy"]
+            referencedColumns: ["cartItemAddedBy"]
           },
           {
             foreignKeyName: "cart_items_beerId_fkey"
@@ -89,14 +89,15 @@ export type Database = {
     Views: {
       cart_items_view: {
         Row: {
-          addedBy: string | null
           beerBrand: string | null
           beerId: number | null
           beerImageUrl: string | null
           beerName: string | null
           beerPrice: number | null
-          id: number | null
-          quantity: number | null
+          beerStock: number | null
+          cartItemAddedBy: string | null
+          cartItemId: number | null
+          cartItemQuantity: number | null
           userData: Json | null
         }
         Relationships: []
