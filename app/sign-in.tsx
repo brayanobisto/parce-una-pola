@@ -15,7 +15,7 @@ export default function Index() {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const handleLogin = async () => {
+  const handleSignIn = async () => {
     const user = await signInAnonymously(`${name} ${lastName}`);
 
     setUser(user);
@@ -36,7 +36,7 @@ export default function Index() {
         <Input label="Apellido" value={lastName} onChangeText={setLastName} />
       </View>
 
-      <Button onPress={handleLogin} disabled={!name || !lastName}>
+      <Button onPress={handleSignIn} disabled={!name || !lastName}>
         Continuar
       </Button>
     </SafeAreaView>
