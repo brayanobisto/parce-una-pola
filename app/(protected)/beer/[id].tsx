@@ -7,7 +7,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tables } from "@/types/supabase";
 import { useUserStore } from "@/store";
 import { Button } from "@/components/Button";
-
+import { CartButton } from "@/components/CartButton";
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
   const [quantity, setQuantity] = useState(1);
@@ -54,9 +54,12 @@ export default function Beer() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <TouchableOpacity className="p-4" onPress={() => router.back()}>
-        <FontAwesome name="chevron-left" size={24} color="black" />
-      </TouchableOpacity>
+      <View className="flex-row items-center justify-between">
+        <TouchableOpacity className="p-4" onPress={() => router.back()}>
+          <FontAwesome name="chevron-left" size={24} color="black" />
+        </TouchableOpacity>
+        <CartButton />
+      </View>
       <ScrollView>
         <Image source={{ uri: beer?.imageUrl }} className="aspect-square w-full mb-4" />
 
