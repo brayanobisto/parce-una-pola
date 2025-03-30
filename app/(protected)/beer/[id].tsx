@@ -6,6 +6,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tables } from "@/types/supabase";
 import { useUserStore } from "@/store";
+import { Button } from "@/components/Button";
+
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -84,9 +86,7 @@ export default function Beer() {
         </View>
       </ScrollView>
       <View className="p-4">
-        <TouchableOpacity className="bg-green-500 rounded-xl py-4 mt-auto" onPress={handleAddToCart}>
-          <Text className="text-white text-center font-bold text-xl">Agregar al carrito</Text>
-        </TouchableOpacity>
+        <Button onPress={handleAddToCart}>Agregar al carrito</Button>
       </View>
     </SafeAreaView>
   );

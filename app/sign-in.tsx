@@ -1,9 +1,10 @@
-// TODO: Ask for user name
-import { Text, TouchableOpacity } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "@/lib/supabase";
 import { Redirect, useRouter } from "expo-router";
 import { useUserStore } from "@/store";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 
 export default function Index() {
   const setUser = useUserStore((state) => state.setUser);
@@ -30,10 +31,16 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white justify-center items-center">
-      <TouchableOpacity className="bg-blue-500 p-4 rounded-md" onPress={handleLogin}>
-        <Text className="text-white text-center font-bold">Ingresar</Text>
-      </TouchableOpacity>
+    <SafeAreaView className="flex-1 bg-white p-4">
+      <Text className="text-4xl text-center font-bold mb-2">Bienvenido a {`\n`}Parce, una pola</Text>
+      <Text className="mb-4 text-lg">Por favor, ingresa tus datos para continuar</Text>
+
+      <View className="flex-row gap-2">
+        <Input label="Nombre" />
+        <Input label="Apellido" />
+      </View>
+
+      <Button onPress={handleLogin}>Continuar</Button>
     </SafeAreaView>
   );
 }
