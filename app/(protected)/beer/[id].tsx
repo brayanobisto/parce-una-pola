@@ -8,6 +8,7 @@ import { Tables } from "@/types/supabase";
 import { useUserStore } from "@/store";
 import { Button } from "@/components/Button";
 import { CartButton } from "@/components/CartButton";
+
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
   const [quantity, setQuantity] = useState(1);
