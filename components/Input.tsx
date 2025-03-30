@@ -1,3 +1,4 @@
+// TODO: Add cva and cn
 import { FC, memo, useRef, useCallback } from "react";
 import { Text, View, TextInput, TextInputProps, Pressable } from "react-native";
 import colors from "tailwindcss/colors";
