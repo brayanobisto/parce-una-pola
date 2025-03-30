@@ -35,8 +35,6 @@ export default function Beer() {
       .eq("beerId", Number(id))
       .single();
 
-    console.log(cartItem);
-
     const newQuantity = (cartItem?.quantity ?? 0) + quantity;
 
     if (cartItem) {
