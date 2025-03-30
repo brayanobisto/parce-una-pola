@@ -35,6 +35,8 @@ export default function Beer() {
       .eq("beerId", Number(id))
       .single();
 
+    console.log(cartItem);
+
     const newQuantity = (cartItem?.quantity ?? 0) + quantity;
 
     if (cartItem) {
@@ -46,9 +48,7 @@ export default function Beer() {
     } else {
       const { data, error } = await supabase
         .from("cart_items")
-        .insert({ addedBy: user?.id!, beerId: Number(id), quantity: newQuantity })
-        .select()
-        .single();
+        .insert({ addedBy: user?.id!, beerId: Number(id), quantity: newQuantity });
     }
   }, [user?.id, id, quantity]);
 
