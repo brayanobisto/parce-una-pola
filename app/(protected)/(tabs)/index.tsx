@@ -1,10 +1,10 @@
 // TODO: Add react query for caching beers
 import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import type { Tables } from "@/lib/supabase/types";
 import { BeerCard, CARD_HEIGHT } from "@/components/BeerCard";
+import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { getBeers } from "@/lib/supabase/services";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
   const keyExtractor = useCallback((item: Tables<"beers">) => item.id.toString(), []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="p-0">
       <FlatList
         data={beers}
         keyExtractor={keyExtractor}

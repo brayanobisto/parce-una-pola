@@ -1,9 +1,11 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+
+import { SafeAreaView } from "@/components/ui/SafeAreaView";
 
 export default function Orders() {
   return (
-    <View>
+    <SafeAreaView className="p-4">
       <Text>Pedidos</Text>
-    </View>
+    </SafeAreaView>
   );
 }

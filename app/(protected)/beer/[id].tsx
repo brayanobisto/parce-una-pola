@@ -27,9 +27,10 @@ export default function Beer() {
     };
 
     fetchBeer();
-  }, []);
+  }, [id]);
 
   const handleAddToCart = useCallback(async () => {
+    // TODO: Move this to a service
     const { data: cartItem } = await supabase
       .from("cart_items")
       .select("quantity")
@@ -53,7 +54,7 @@ export default function Beer() {
   }, [user?.id, id, quantity]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView>
       <View className="flex-row items-center justify-between">
         <TouchableOpacity className="p-4" onPress={() => router.back()}>
           <FontAwesome name="chevron-left" size={24} color="black" />

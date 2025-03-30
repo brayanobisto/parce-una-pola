@@ -1,7 +1,7 @@
-import { Text, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
+import { Button } from "@/components/ui/Button";
+import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
 
@@ -19,10 +19,8 @@ export default function Profile() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <TouchableOpacity className="p-4" onPress={handleSignOut}>
-        <Text>Salir</Text>
-      </TouchableOpacity>
+    <SafeAreaView className="p-4">
+      <Button onPress={handleSignOut}>Salir</Button>
     </SafeAreaView>
   );
 }

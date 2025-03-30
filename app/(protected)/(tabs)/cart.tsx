@@ -2,10 +2,10 @@
 // TODO: Refactor to improve performance
 import { Fragment } from "react";
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
+import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/userCartItemsView";
 import { useUserStore } from "@/store";
 
@@ -27,7 +27,7 @@ export default function Cart() {
   }, {});
 
   return (
-    <SafeAreaView className="flex-1 bg-white p-4">
+    <SafeAreaView className="p-4">
       <TouchableOpacity onPress={() => router.back()}>
         <FontAwesome name="chevron-left" size={24} color="black" />
       </TouchableOpacity>

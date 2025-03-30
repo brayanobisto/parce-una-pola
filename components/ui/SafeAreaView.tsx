@@ -8,7 +8,7 @@ export const SafeAreaView = memo((props: SafeAreaViewProps) => {
   const { children, className, ...restProps } = props;
 
   return (
-    <RN_SafeAreaView className={cn("flex-1 bg-white p-4", className)} {...restProps}>
+    <RN_SafeAreaView className={cn("flex-1 bg-white", className)} {...restProps}>
       {children}
     </RN_SafeAreaView>
   );
