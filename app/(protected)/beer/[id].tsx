@@ -1,13 +1,14 @@
+import { useCallback, useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/lib/supabase";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tables } from "@/lib/supabase/types";
-import { useUserStore } from "@/store";
-import { Button } from "@/components/ui/Button";
+
+import type { Tables } from "@/lib/supabase/types";
 import { CartButton } from "@/components/CartButton";
+import { Button } from "@/components/ui/Button";
+import { supabase } from "@/lib/supabase";
+import { useUserStore } from "@/store";
 
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
@@ -60,43 +61,43 @@ export default function Beer() {
         <CartButton />
       </View>
       <ScrollView>
-        <Image source={{ uri: beer?.imageUrl }} className="aspect-square w-full mb-4" />
+        <Image source={{ uri: beer?.imageUrl }} className="mb-4 aspect-square w-full" />
 
-        <View className="p-4 flex-1">
+        <View className="flex-1 p-4">
           <Text className="text-2xl font-bold">{beer?.name}</Text>
-          <Text className="text-gray-500 font-medium mb-4 text-sm">{beer?.brand}</Text>
+          <Text className="mb-4 text-sm font-medium text-gray-500">{beer?.brand}</Text>
 
-          <View className="flex-row justify-between ">
+          <View className="flex-row justify-between">
             <View className="gap-2">
               <Text className="font-medium text-green-500">Cantidad</Text>
               <View className="flex-row items-center gap-2">
                 <TouchableOpacity
-                  className="bg-transparent p-2 rounded-md border border-green-500"
+                  className="rounded-md border border-green-500 bg-transparent p-2"
                   onPress={() => setQuantity(Math.max(quantity - 1, 1))}
                 >
                   <FontAwesome name="minus" size={14} color="black" />
                 </TouchableOpacity>
-                <Text className="font-medium mx-6 text-2xl">{quantity}</Text>
+                <Text className="mx-6 text-2xl font-medium">{quantity}</Text>
                 <TouchableOpacity
-                  className="bg-transparent p-2 rounded-md border border-green-500"
+                  className="rounded-md border border-green-500 bg-transparent p-2"
                   onPress={() => setQuantity(quantity + 1)}
                 >
                   <FontAwesome name="plus" size={14} color="black" />
                 </TouchableOpacity>
               </View>
             </View>
-            <View className="gap-2 mb-4">
+            <View className="mb-4 gap-2">
               <Text className="font-medium text-green-500">Precio</Text>
-              <Text className="font-medium  text-2xl">
+              <Text className="text-2xl font-medium">
                 {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                  beer?.price ?? 0
+                  beer?.price ?? 0,
                 )}
               </Text>
             </View>
           </View>
 
           <View>
-            <Text className="font-medium text-lg">Descripción</Text>
+            <Text className="text-lg font-medium">Descripción</Text>
             <Text className="text-gray-500">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam magni dolorem soluta, quas eos impedit,
               laudantium aperiam ipsa incidunt fugit asperiores iste perspiciatis repellat id harum modi quo alias aut.

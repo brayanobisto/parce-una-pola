@@ -1,6 +1,8 @@
-import { supabase } from "@/lib/supabase";
-import { Tables } from "@/lib/supabase/types";
 import { useEffect, useState } from "react";
+
+import type { Tables } from "@/lib/supabase/types";
+import { supabase } from "@/lib/supabase";
+
 export const useCartItems = () => {
   const [cartItems, setCartItems] = useState<Tables<"cart_items">[]>([]);
 
@@ -26,7 +28,7 @@ export const useCartItems = () => {
 
           if (payload.eventType === "UPDATE") {
             return prevCartItems.map((item) =>
-              item.id === payload.new.id ? (payload.new as Tables<"cart_items">) : item
+              item.id === payload.new.id ? (payload.new as Tables<"cart_items">) : item,
             );
           }
 

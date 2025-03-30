@@ -1,9 +1,9 @@
 // TODO: Add react query for caching beers
-import { supabase } from "@/lib/supabase";
-import { Tables } from "@/lib/supabase/types";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import type { Tables } from "@/lib/supabase/types";
 import { BeerCard, CARD_HEIGHT } from "@/components/BeerCard";
 import { getBeers } from "@/lib/supabase/services";
 

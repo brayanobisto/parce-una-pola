@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
-import colors from "tailwindcss/colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import colors from "tailwindcss/colors";
 
 export default function TabsLayout() {
   return (

@@ -1,6 +1,5 @@
-import { Fragment } from "react";
-import { Stack, Redirect } from "expo-router";
-import { ActivityIndicator, SafeAreaView } from "react-native";
+import { Redirect, Stack } from "expo-router";
+
 import { useUserStore } from "@/store";
 
 export default function ProtectedLayout() {

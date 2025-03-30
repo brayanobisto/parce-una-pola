@@ -1,7 +1,9 @@
-import { FC, memo } from "react";
+import type { FC } from "react";
+import { memo } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Tables } from "@/lib/supabase/types";
+
+import type { Tables } from "@/lib/supabase/types";
 
 export const CARD_HEIGHT = 140;
 
@@ -14,7 +16,7 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
 
   return (
     <TouchableOpacity
-      className={`flex-1 rounded-xl bg-white shadow-md shadow-black/60 overflow-hidden flex-row h-[${CARD_HEIGHT}px]`}
+      className={`flex-1 flex-row overflow-hidden rounded-xl bg-white shadow-md shadow-black/60 h-[${CARD_HEIGHT}px]`}
       onPress={() =>
         router.push({
           pathname: "/(protected)/beer/[id]",
@@ -25,8 +27,8 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
       }
     >
       <Image source={{ uri: beer.imageUrl }} className="aspect-square" height={CARD_HEIGHT} width={CARD_HEIGHT} />
-      <View className="flex-1 py-4 px-4 border-l border-gray-200">
-        <Text className="text-xl font-bold flex-shrink" numberOfLines={2}>
+      <View className="flex-1 border-l border-gray-200 px-4 py-4">
+        <Text className="flex-shrink text-xl font-bold" numberOfLines={2}>
           {beer.name}
         </Text>
         <Text className="text-gray-500">{beer.brand}</Text>
@@ -34,7 +36,7 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
 
         <Text className="text-xl font-bold text-green-500">
           {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-            Number(beer.price)
+            Number(beer.price),
           )}
         </Text>
       </View>

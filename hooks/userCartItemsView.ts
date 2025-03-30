@@ -1,6 +1,7 @@
+import { useCallback, useEffect, useState } from "react";
+
+import type { Tables } from "@/lib/supabase/types";
 import { supabase } from "@/lib/supabase";
-import { Tables } from "@/lib/supabase/types";
-import { useEffect, useState, useCallback } from "react";
 
 export const useCartItemsView = () => {
   const [cartItems, setCartItems] = useState<Tables<"cart_items_view">[]>([]);
@@ -30,7 +31,7 @@ export const useCartItemsView = () => {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, []);
+  }, [fetchCartItemsView]);
 
   return cartItems;
 };

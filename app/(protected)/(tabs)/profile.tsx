@@ -1,8 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "expo-router";
+
+import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
+
 export default function Profile() {
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
