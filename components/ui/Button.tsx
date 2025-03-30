@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { TouchableOpacity, Text, TouchableOpacityProps } from "react-native";
 import { cn } from "@/utils/cn";
 
 interface ButtonProps extends TouchableOpacityProps {}
 
-export const Button: FC<ButtonProps> = (props) => {
+export const Button: FC<ButtonProps> = memo((props) => {
   const { children, className, ...restProps } = props;
 
   return (
@@ -12,4 +12,6 @@ export const Button: FC<ButtonProps> = (props) => {
       <Text className="text-white text-center font-bold text-xl">{children}</Text>
     </TouchableOpacity>
   );
-};
+});
+
+Button.displayName = "Button";

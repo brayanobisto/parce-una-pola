@@ -6,7 +6,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tables } from "@/lib/supabase/types";
 import { useUserStore } from "@/store";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/ui/Button";
 import { CartButton } from "@/components/CartButton";
 
 export default function Beer() {
