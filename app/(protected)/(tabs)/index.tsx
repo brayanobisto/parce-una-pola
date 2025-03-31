@@ -23,7 +23,7 @@ export default function Home() {
   if (isLoading) return <LoadingView />;
 
   return (
-    <SafeAreaView className="p-0">
+    <SafeAreaView>
       <FlatList
         data={beers}
         keyExtractor={keyExtractor}
