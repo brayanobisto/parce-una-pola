@@ -1,9 +1,11 @@
 import { Fragment, useEffect } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { LoadingView } from "@/components/ui/LoadingView";
 import { supabase } from "@/lib/supabase";
+import { queryClient } from "@/lib/tanstack-query";
 import { useUserStore } from "@/store";
 
 import "@/global.css";
@@ -32,7 +34,9 @@ export default function RootLayout() {
   return (
     <Fragment>
       <StatusBar style="inverted" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <QueryClientProvider client={queryClient}>
+        <Stack screenOptions={{ headerShown: false }} />
+      </QueryClientProvider>
     </Fragment>
   );
 }

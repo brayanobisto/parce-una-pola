@@ -1,7 +1,13 @@
 // https://docs.expo.dev/guides/using-eslint/
 module.exports = {
   extends: ["expo", "prettier"],
-  plugins: ["@typescript-eslint", "no-relative-import-paths", "eslint-plugin-unused-imports", "prettier"],
+  plugins: [
+    "@typescript-eslint",
+    "no-relative-import-paths",
+    "eslint-plugin-unused-imports",
+    "@tanstack/eslint-plugin-query",
+    "prettier",
+  ],
   ignorePatterns: ["/dist/*", "/node_modules/*", "/.expo/*"],
   parser: "@typescript-eslint/parser",
   rules: {

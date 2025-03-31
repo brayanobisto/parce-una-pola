@@ -1,30 +1,20 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { useRouter } from "expo-router";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
-import { signInAnonymously } from "@/lib/supabase/auth";
-import { useUserStore } from "@/store";
+import { useSignIn } from "@/hooks/auth/useSignIn";
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(false);
   const [fullNameForm, setFullNameForm] = useState({
     name: "",
     lastName: "",
   });
+  const { mutate: signIn, isPending: isSigningIn } = useSignIn();
 
-  const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
-
-  const handleSignIn = async () => {
-    setIsLoading(true);
-    const user = await signInAnonymously(`${fullNameForm.name} ${fullNameForm.lastName}`);
-    setIsLoading(false);
-
-    setUser(user);
-    router.replace("/(protected)/(tabs)");
+  const handleSignIn = () => {
+    signIn(`${fullNameForm.name} ${fullNameForm.lastName}`);
   };
 
   return (
@@ -45,7 +35,7 @@ export default function Index() {
         />
       </View>
 
-      <Button onPress={handleSignIn} disabled={!fullNameForm.name || !fullNameForm.lastName} isLoading={isLoading}>
+      <Button onPress={handleSignIn} disabled={!fullNameForm.name || !fullNameForm.lastName} isLoading={isSigningIn}>
         Continuar
       </Button>
     </SafeAreaView>
