@@ -9,18 +9,19 @@ import { signInAnonymously } from "@/lib/supabase/auth";
 import { useUserStore } from "@/store";
 
 export default function Index() {
+  const [isLoading, setIsLoading] = useState(false);
   const [fullNameForm, setFullNameForm] = useState({
     name: "",
     lastName: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-
   const setUser = useUserStore((state) => state.setUser);
 
   const handleSignIn = async () => {
+    setIsLoading(true);
     const user = await signInAnonymously(`${fullNameForm.name} ${fullNameForm.lastName}`);
+    setIsLoading(false);
 
     setUser(user);
     router.replace("/(protected)/(tabs)");
@@ -44,7 +45,7 @@ export default function Index() {
         />
       </View>
 
-      <Button onPress={handleSignIn} disabled={!fullNameForm.name || !fullNameForm.lastName || isLoading}>
+      <Button onPress={handleSignIn} disabled={!fullNameForm.name || !fullNameForm.lastName} isLoading={isLoading}>
         Continuar
       </Button>
     </SafeAreaView>
