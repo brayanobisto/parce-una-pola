@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import type { Tables } from "@/lib/supabase/types";
 import { CartButton } from "@/components/CartButton";
 import { Button } from "@/components/ui/Button";
+import { GoBackButton } from "@/components/ui/GoBackButton";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
@@ -13,8 +14,8 @@ import { useUserStore } from "@/store";
 export default function Beer() {
   const [beer, setBeer] = useState<Tables<"beers">>();
   const [quantity, setQuantity] = useState(1);
+
   const { id } = useLocalSearchParams<{ id: string }>();
-  const router = useRouter();
   const user = useUserStore((state) => state.user);
 
   useEffect(() => {
@@ -56,9 +57,7 @@ export default function Beer() {
   return (
     <SafeAreaView>
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity className="p-4" onPress={() => router.back()}>
-          <FontAwesome name="chevron-left" size={24} color="black" />
-        </TouchableOpacity>
+        <GoBackButton />
         <CartButton />
       </View>
       <ScrollView>
