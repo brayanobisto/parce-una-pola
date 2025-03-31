@@ -1,8 +1,8 @@
 import { Fragment, useEffect } from "react";
-import { ActivityIndicator, SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
+import { LoadingView } from "@/components/ui/LoadingView";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
 
@@ -26,11 +26,7 @@ export default function RootLayout() {
   }, [setIsLoading, setUser]);
 
   if (isLoading) {
-    return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator className="text-green-500" size="large" />
-      </SafeAreaView>
-    );
+    return <LoadingView />;
   }
 
   return (
