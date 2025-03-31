@@ -11,7 +11,7 @@ export const getBeers = async (): Promise<Tables<"beers">[]> => {
   return data;
 };
 
-export const getBeerById = async (id: number): Promise<Tables<"beers">> => {
+export const getBeerById = async (id: number): Promise<Tables<"beers"> | null> => {
   const { data, error } = await supabase.from("beers").select("*").eq("id", id).single();
 
   if (error) {

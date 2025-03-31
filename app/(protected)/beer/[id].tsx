@@ -1,38 +1,26 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import type { Tables } from "@/lib/supabase/types";
 import { CartButton } from "@/components/CartButton";
 import { Button } from "@/components/ui/Button";
 import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
+import { useBeer } from "@/hooks/beer/useBeer";
 import { supabase } from "@/lib/supabase";
-import { getBeerById } from "@/lib/supabase/services";
 import { useUserStore } from "@/store";
 
 export default function Beer() {
-  const [isLoading, setIsLoading] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [beer, setBeer] = useState<Tables<"beers">>();
+
   const [quantity, setQuantity] = useState(1);
 
   const { id } = useLocalSearchParams<{ id: string }>();
   const user = useUserStore((state) => state.user);
 
-  useEffect(() => {
-    const fetchBeer = async () => {
-      setIsLoading(true);
-      const beer = await getBeerById(Number(id));
-      setBeer(beer);
-
-      setIsLoading(false);
-    };
-
-    fetchBeer();
-  }, [id]);
+  const { data: beer, isPending: isBeerPending } = useBeer(id);
 
   const handleAddToCart = useCallback(async () => {
     // TODO: Move this to a service
@@ -61,7 +49,7 @@ export default function Beer() {
     setIsAddingToCart(false);
   }, [user?.id, id, quantity]);
 
-  if (isLoading) return <LoadingView />;
+  if (isBeerPending) return <LoadingView />;
 
   return (
     <SafeAreaView>
