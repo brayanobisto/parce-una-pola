@@ -13,7 +13,7 @@ export default function Profile() {
   const handleSignOut = useCallback(async () => {
     await signOut();
     setUser(null);
-    router.replace("/sign-in");
+    router.replace("/auth/sign-in");
   }, [router, setUser]);
 
   return (

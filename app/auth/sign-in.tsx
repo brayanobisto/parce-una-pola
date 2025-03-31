@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, View } from "react-native";
-import { Redirect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -13,7 +13,7 @@ export default function Index() {
   const [lastName, setLastName] = useState("");
 
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
+
   const setUser = useUserStore((state) => state.setUser);
 
   const handleSignIn = async () => {
@@ -22,10 +22,6 @@ export default function Index() {
     setUser(user);
     router.replace("/(protected)/(tabs)");
   };
-
-  if (user) {
-    return <Redirect href="/(protected)/(tabs)" />;
-  }
 
   return (
     <SafeAreaView className="p-4">
