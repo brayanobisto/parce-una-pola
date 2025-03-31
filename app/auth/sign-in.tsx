@@ -9,15 +9,18 @@ import { signInAnonymously } from "@/lib/supabase/auth";
 import { useUserStore } from "@/store";
 
 export default function Index() {
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullNameForm, setFullNameForm] = useState({
+    name: "",
+    lastName: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   const setUser = useUserStore((state) => state.setUser);
 
   const handleSignIn = async () => {
-    const user = await signInAnonymously(`${name} ${lastName}`);
+    const user = await signInAnonymously(`${fullNameForm.name} ${fullNameForm.lastName}`);
 
     setUser(user);
     router.replace("/(protected)/(tabs)");
@@ -29,11 +32,19 @@ export default function Index() {
       <Text className="mb-6 text-lg">Por favor, ingresa tus datos para continuar</Text>
 
       <View className="flex-row gap-2">
-        <Input label="Nombre" value={name} onChangeText={setName} />
-        <Input label="Apellido" value={lastName} onChangeText={setLastName} />
+        <Input
+          label="Nombre"
+          value={fullNameForm.name}
+          onChangeText={(text) => setFullNameForm({ ...fullNameForm, name: text })}
+        />
+        <Input
+          label="Apellido"
+          value={fullNameForm.lastName}
+          onChangeText={(text) => setFullNameForm({ ...fullNameForm, lastName: text })}
+        />
       </View>
 
-      <Button onPress={handleSignIn} disabled={!name || !lastName}>
+      <Button onPress={handleSignIn} disabled={!fullNameForm.name || !fullNameForm.lastName || isLoading}>
         Continuar
       </Button>
     </SafeAreaView>

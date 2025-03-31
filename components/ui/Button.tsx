@@ -5,13 +5,16 @@ import { Text, TouchableOpacity } from "react-native";
 
 import { cn } from "@/utils/cn";
 
-interface ButtonProps extends TouchableOpacityProps {}
-
-export const Button: FC<ButtonProps> = memo((props) => {
+export const Button: FC<TouchableOpacityProps> = memo((props) => {
   const { children, className, ...restProps } = props;
 
   return (
-    <TouchableOpacity className={cn("mt-auto rounded-xl bg-green-500 py-4", className)} {...restProps}>
+    <TouchableOpacity
+      className={cn("mt-auto rounded-xl bg-green-500 py-4", className, {
+        "opacity-50": restProps.disabled,
+      })}
+      {...restProps}
+    >
       <Text className="text-center text-xl font-bold text-white">{children}</Text>
     </TouchableOpacity>
   );
