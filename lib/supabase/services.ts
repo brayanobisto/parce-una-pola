@@ -20,3 +20,34 @@ export const getBeerById = async (id: number): Promise<Tables<"beers"> | null> =
 
   return data;
 };
+
+export const addToCart = async (beerId: number, userId: string, quantity: number) => {
+  const { data: cartItem } = await supabase
+    .from("cart_items")
+    .select("quantity")
+    .eq("addedBy", userId)
+    .eq("beerId", beerId)
+    .single();
+
+  const newQuantity = (cartItem?.quantity ?? 0) + quantity;
+
+  if (cartItem) {
+    const { error } = await supabase
+      .from("cart_items")
+      .update({ quantity: newQuantity })
+      .eq("addedBy", userId)
+      .eq("beerId", beerId);
+
+    if (error) {
+      throw error;
+    }
+  } else {
+    const { error } = await supabase
+      .from("cart_items")
+      .insert({ addedBy: userId, beerId: beerId, quantity: newQuantity });
+
+    if (error) {
+      throw error;
+    }
+  }
+};

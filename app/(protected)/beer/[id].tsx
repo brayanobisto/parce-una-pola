@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -8,46 +8,19 @@ import { Button } from "@/components/ui/Button";
 import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
+import { useAddToCart } from "@/hooks/beer/useAddToCart";
 import { useBeer } from "@/hooks/beer/useBeer";
-import { supabase } from "@/lib/supabase";
-import { useUserStore } from "@/store";
 
 export default function Beer() {
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
-
   const [quantity, setQuantity] = useState(1);
-
   const { id } = useLocalSearchParams<{ id: string }>();
-  const user = useUserStore((state) => state.user);
 
   const { data: beer, isPending: isBeerPending } = useBeer(id);
+  const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
 
-  const handleAddToCart = useCallback(async () => {
-    // TODO: Move this to a service
-    setIsAddingToCart(true);
-    const { data: cartItem } = await supabase
-      .from("cart_items")
-      .select("quantity")
-      .eq("addedBy", user?.id!)
-      .eq("beerId", Number(id))
-      .single();
-
-    const newQuantity = (cartItem?.quantity ?? 0) + quantity;
-
-    if (cartItem) {
-      const { data, error } = await supabase
-        .from("cart_items")
-        .update({ quantity: newQuantity })
-        .eq("addedBy", user?.id!)
-        .eq("beerId", Number(id));
-    } else {
-      const { data, error } = await supabase
-        .from("cart_items")
-        .insert({ addedBy: user?.id!, beerId: Number(id), quantity: newQuantity });
-    }
-
-    setIsAddingToCart(false);
-  }, [user?.id, id, quantity]);
+  const handleAddToCart = () => {
+    addToCart({ beerId: Number(id), quantity });
+  };
 
   if (isBeerPending) return <LoadingView />;
 
