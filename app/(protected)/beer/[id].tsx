@@ -7,11 +7,15 @@ import type { Tables } from "@/lib/supabase/types";
 import { CartButton } from "@/components/CartButton";
 import { Button } from "@/components/ui/Button";
 import { GoBackButton } from "@/components/ui/GoBackButton";
+import { LoadingView } from "@/components/ui/LoadingView";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { supabase } from "@/lib/supabase";
+import { getBeerById } from "@/lib/supabase/services";
 import { useUserStore } from "@/store";
 
 export default function Beer() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [beer, setBeer] = useState<Tables<"beers">>();
   const [quantity, setQuantity] = useState(1);
 
@@ -20,11 +24,11 @@ export default function Beer() {
 
   useEffect(() => {
     const fetchBeer = async () => {
-      const { data, error } = await supabase.from("beers").select("*").eq("id", Number(id)).single();
+      setIsLoading(true);
+      const beer = await getBeerById(Number(id));
+      setBeer(beer);
 
-      if (!error) {
-        setBeer(data);
-      }
+      setIsLoading(false);
     };
 
     fetchBeer();
@@ -32,6 +36,7 @@ export default function Beer() {
 
   const handleAddToCart = useCallback(async () => {
     // TODO: Move this to a service
+    setIsAddingToCart(true);
     const { data: cartItem } = await supabase
       .from("cart_items")
       .select("quantity")
@@ -52,7 +57,11 @@ export default function Beer() {
         .from("cart_items")
         .insert({ addedBy: user?.id!, beerId: Number(id), quantity: newQuantity });
     }
+
+    setIsAddingToCart(false);
   }, [user?.id, id, quantity]);
+
+  if (isLoading) return <LoadingView />;
 
   return (
     <SafeAreaView>
@@ -108,7 +117,9 @@ export default function Beer() {
         </View>
       </ScrollView>
       <View className="p-4">
-        <Button onPress={handleAddToCart}>Agregar al carrito</Button>
+        <Button onPress={handleAddToCart} isLoading={isAddingToCart}>
+          Agregar al carrito
+        </Button>
       </View>
     </SafeAreaView>
   );
