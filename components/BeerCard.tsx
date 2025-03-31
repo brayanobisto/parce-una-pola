@@ -26,7 +26,13 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
         })
       }
     >
-      <Image source={{ uri: beer.imageUrl }} className="aspect-square" height={CARD_HEIGHT} width={CARD_HEIGHT} />
+      <Image
+        source={{ uri: beer.imageUrl }}
+        className="aspect-square"
+        resizeMode="contain"
+        height={CARD_HEIGHT}
+        width={CARD_HEIGHT}
+      />
       <View className="flex-1 border-l border-gray-200 px-4 py-4">
         <Text className="flex-shrink text-xl font-bold" numberOfLines={2}>
           {beer.name}
