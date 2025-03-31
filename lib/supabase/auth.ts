@@ -22,3 +22,11 @@ export const signInAnonymously = async (name: string) => {
 
   return user;
 };
+
+export const signOut = async () => {
+  const { error: signOutError } = await supabase.auth.signOut();
+
+  if (signOutError) {
+    throw signOutError;
+  }
+};
