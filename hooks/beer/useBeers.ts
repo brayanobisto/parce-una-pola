@@ -4,8 +4,8 @@ import { getBeers } from "@/lib/supabase/services";
 
 export const useBeers = () => {
   return useQuery({
-    queryFn: () => getBeers(),
     queryKey: ["beers"],
+    queryFn: () => getBeers(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
