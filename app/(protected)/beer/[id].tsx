@@ -42,15 +42,13 @@ export default function Beer() {
           <Text className="text-sm font-medium text-gray-500">{beer?.brand}</Text>
           <Text className="mb-4 text-sm font-medium">{beer?.stock} unidades disponibles</Text>
 
-          <View className="flex-row justify-between">
-            <View className="gap-2">
-              <Text className="font-medium text-green-500">Cantidad</Text>
-              <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
-            </View>
-            <View className="mb-4 gap-2">
-              <Text className="font-medium text-green-500">Precio</Text>
-              <Text className="text-2xl font-medium">{formatCurrency(beer?.price)}</Text>
-            </View>
+          <View className="mb-2 flex-row items-center justify-between">
+            <Text className="font-medium text-green-500">Cantidad</Text>
+            <Text className="font-medium text-green-500">Precio</Text>
+          </View>
+          <View className="mb-4 flex-row items-center justify-between">
+            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+            <Text className="text-2xl font-medium">{formatCurrency(beer?.price)}</Text>
           </View>
 
           <View>

@@ -9,14 +9,14 @@ interface QuantitySelectorProps {
 }
 
 export const QuantitySelector: FC<QuantitySelectorProps> = memo(({ quantity, setQuantity }) => (
-  <View className="flex-row items-center gap-2">
+  <View className="w-11 flex-row items-center">
     <TouchableOpacity
       className="rounded-md border border-green-500 bg-transparent p-2"
       onPress={() => setQuantity(Math.max(quantity - 1, 1))}
     >
       <FontAwesome name="minus" size={14} color="black" />
     </TouchableOpacity>
-    <Text className="mx-6 text-2xl font-medium">{quantity}</Text>
+    <Text className="w-full text-center text-2xl font-medium">{quantity}</Text>
     <TouchableOpacity
       className="rounded-md border border-green-500 bg-transparent p-2"
       onPress={() => setQuantity(quantity + 1)}

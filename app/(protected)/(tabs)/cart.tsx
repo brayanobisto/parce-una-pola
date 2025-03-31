@@ -1,8 +1,8 @@
-import { Fragment } from "react";
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
+import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/userCartItemsView";
 import { useUserStore } from "@/store";
@@ -55,22 +55,8 @@ export default function Cart() {
                     <Text className="text-gray-500">{item.beerBrand}</Text>
                     <Text className="mb-2 text-sm">{formatCurrency(item.beerPrice)}</Text>
 
-                    <View className="mb-1 flex-row justify-between">
-                      <View className="flex-row items-center gap-2">
-                        {user?.id === item.cartItemAddedBy && (
-                          <Fragment>
-                            <TouchableOpacity className="rounded-md border border-green-500 bg-transparent p-2">
-                              <FontAwesome name="minus" size={14} color="black" />
-                            </TouchableOpacity>
-                          </Fragment>
-                        )}
-                        <Text className="mx-6 text-2xl font-medium">{item.cartItemQuantity}</Text>
-                        {user?.id === item.cartItemAddedBy && (
-                          <TouchableOpacity className="rounded-md border border-green-500 bg-transparent p-2">
-                            <FontAwesome name="plus" size={14} color="black" />
-                          </TouchableOpacity>
-                        )}
-                      </View>
+                    <View className="mb-1 flex-row items-center justify-between gap-4">
+                      <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} />
 
                       <Text className="text-2xl font-medium text-green-500">
                         {formatCurrency(item.beerPrice! * item.cartItemQuantity!)}
