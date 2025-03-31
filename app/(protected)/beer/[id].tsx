@@ -23,8 +23,6 @@ export default function Beer() {
     addToCart({ beerId: Number(id), quantity });
   };
 
-  console.log("Renderizando");
-
   if (isBeerPending) return <LoadingView />;
 
   return (
