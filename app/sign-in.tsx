@@ -9,11 +9,12 @@ import { signInAnonymously } from "@/lib/supabase/auth";
 import { useUserStore } from "@/store";
 
 export default function Index() {
-  const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user);
-  const router = useRouter();
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const router = useRouter();
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
 
   const handleSignIn = async () => {
     const user = await signInAnonymously(`${name} ${lastName}`);
