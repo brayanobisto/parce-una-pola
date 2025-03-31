@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { CartButton } from "@/components/CartButton";
+import { CartCountButton } from "@/components/CartCountButton";
 import { Button } from "@/components/ui/Button";
 import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
+import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useAddToCart } from "@/hooks/beer/useAddToCart";
 import { useBeer } from "@/hooks/beer/useBeer";
@@ -28,33 +28,21 @@ export default function Beer() {
     <SafeAreaView>
       <View className="flex-row items-center justify-between">
         <GoBackButton />
-        <CartButton />
+        <CartCountButton />
       </View>
+
       <ScrollView>
         <Image source={{ uri: beer?.imageUrl }} className="mb-4 aspect-square w-full" />
 
         <View className="flex-1 p-4">
           <Text className="text-2xl font-bold">{beer?.name}</Text>
-          <Text className="mb-4 text-sm font-medium text-gray-500">{beer?.brand}</Text>
+          <Text className="text-sm font-medium text-gray-500">{beer?.brand}</Text>
+          <Text className="mb-4 text-sm font-medium">{beer?.stock} unidades disponibles</Text>
 
           <View className="flex-row justify-between">
             <View className="gap-2">
               <Text className="font-medium text-green-500">Cantidad</Text>
-              <View className="flex-row items-center gap-2">
-                <TouchableOpacity
-                  className="rounded-md border border-green-500 bg-transparent p-2"
-                  onPress={() => setQuantity(Math.max(quantity - 1, 1))}
-                >
-                  <FontAwesome name="minus" size={14} color="black" />
-                </TouchableOpacity>
-                <Text className="mx-6 text-2xl font-medium">{quantity}</Text>
-                <TouchableOpacity
-                  className="rounded-md border border-green-500 bg-transparent p-2"
-                  onPress={() => setQuantity(quantity + 1)}
-                >
-                  <FontAwesome name="plus" size={14} color="black" />
-                </TouchableOpacity>
-              </View>
+              <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
             </View>
             <View className="mb-4 gap-2">
               <Text className="font-medium text-green-500">Precio</Text>

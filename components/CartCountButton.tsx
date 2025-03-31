@@ -6,7 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import { useCartItems } from "@/hooks/useCartItems";
 
-export const CartButton: FC = () => {
+export const CartCountButton: FC = () => {
   const router = useRouter();
   const cartItems = useCartItems();
 
