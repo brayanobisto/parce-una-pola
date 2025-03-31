@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import type { Tables } from "@/lib/supabase/types";
 import { CartButton } from "@/components/CartButton";
 import { Button } from "@/components/ui/Button";
+import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { supabase } from "@/lib/supabase";
 import { useUserStore } from "@/store";
 
