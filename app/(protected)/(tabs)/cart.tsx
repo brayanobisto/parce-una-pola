@@ -1,5 +1,3 @@
-// TODO: Fix styles on Android
-// TODO: Refactor to improve performance
 import { Fragment } from "react";
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
@@ -8,6 +6,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/userCartItemsView";
 import { useUserStore } from "@/store";
+import { formatCurrency } from "@/utils/currency";
 
 export default function Cart() {
   const user = useUserStore((state) => state.user);
@@ -54,13 +53,7 @@ export default function Cart() {
                       {item.beerName}
                     </Text>
                     <Text className="text-gray-500">{item.beerBrand}</Text>
-                    <Text className="mb-2 text-sm">
-                      {Intl.NumberFormat("es-CO", {
-                        style: "currency",
-                        currency: "COP",
-                        minimumFractionDigits: 0,
-                      }).format(item.beerPrice!)}
-                    </Text>
+                    <Text className="mb-2 text-sm">{formatCurrency(item.beerPrice)}</Text>
 
                     <View className="mb-1 flex-row justify-between">
                       <View className="flex-row items-center gap-2">
@@ -80,11 +73,7 @@ export default function Cart() {
                       </View>
 
                       <Text className="text-2xl font-medium text-green-500">
-                        {Intl.NumberFormat("es-CO", {
-                          style: "currency",
-                          currency: "COP",
-                          minimumFractionDigits: 0,
-                        }).format(item.beerPrice! * item.cartItemQuantity!)}
+                        {formatCurrency(item.beerPrice! * item.cartItemQuantity!)}
                       </Text>
                     </View>
                   </View>
@@ -94,50 +83,6 @@ export default function Cart() {
           </View>
         ))}
       </ScrollView>
-      {/* <FlatList
-        ListHeaderComponent={() => <Text className="text-4xl font-medium my-4">Cervezas agregadas por:</Text>}
-        data={cartItems}
-        keyExtractor={(item) => item.cartItemId?.toString()!}
-        renderItem={({ item }) => (
-          <View className="rounded-xl bg-white shadow-md shadow-black/60 overflow-hidden flex-row flex-wrap">
-            <Image
-              source={{
-                uri: item.beerImageUrl!,
-              }}
-              className="aspect-square w-36 h-36"
-            />
-            <View className="flex-1 py-4 px-4 border-l border-gray-200">
-              <Text className="text-xl font-bold flex-shrink" numberOfLines={1}>
-                {item.beerName}
-              </Text>
-              <Text className="text-gray-500">{item.beerBrand}</Text>
-              <Text className="text-sm mb-2">
-                {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                  item.beerPrice!
-                )}
-              </Text>
-
-              <View className="flex-row justify-between mb-1">
-                <View className="flex-row items-center gap-2">
-                  <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
-                    <FontAwesome name="minus" size={14} color="black" />
-                  </TouchableOpacity>
-                  <Text className="font-medium mx-6 text-2xl">{item.cartItemQuantity}</Text>
-                  <TouchableOpacity className="bg-transparent p-2 rounded-md border border-green-500">
-                    <FontAwesome name="plus" size={14} color="black" />
-                  </TouchableOpacity>
-                </View>
-
-                <Text className="font-medium text-2xl text-green-500">
-                  {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                    item.beerPrice! * item.cartItemQuantity!
-                  )}
-                </Text>
-              </View>
-            </View>
-          </View>
-        )}
-      /> */}
     </SafeAreaView>
   );
 }

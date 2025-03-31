@@ -10,6 +10,7 @@ import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useAddToCart } from "@/hooks/beer/useAddToCart";
 import { useBeer } from "@/hooks/beer/useBeer";
+import { formatCurrency } from "@/utils/currency";
 
 export default function Beer() {
   const [quantity, setQuantity] = useState(1);
@@ -21,6 +22,8 @@ export default function Beer() {
   const handleAddToCart = () => {
     addToCart({ beerId: Number(id), quantity });
   };
+
+  console.log("Renderizando");
 
   if (isBeerPending) return <LoadingView />;
 
@@ -46,11 +49,7 @@ export default function Beer() {
             </View>
             <View className="mb-4 gap-2">
               <Text className="font-medium text-green-500">Precio</Text>
-              <Text className="text-2xl font-medium">
-                {Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(
-                  beer?.price ?? 0,
-                )}
-              </Text>
+              <Text className="text-2xl font-medium">{formatCurrency(beer?.price)}</Text>
             </View>
           </View>
 
