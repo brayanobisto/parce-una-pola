@@ -10,8 +10,8 @@ import { formatCurrency } from "@/utils/currency";
 export default function Cart() {
   const cartItems = useCartItemsView();
 
-  const { groupedCartItemsByUserName } = useMemo(() => {
-    const groupedCartItemsByUserName = cartItems.reduce(
+  const groupedCartItemsByUserName = useMemo(() => {
+    return cartItems.reduce(
       (acc: Record<string, { items: typeof cartItems; total: number }>, item) => {
         const user = (item.userData as { name: string }).name;
 
@@ -26,8 +26,6 @@ export default function Cart() {
       },
       {} as Record<string, { items: typeof cartItems; total: number }>,
     );
-
-    return { groupedCartItemsByUserName };
   }, [cartItems]);
 
   return (
@@ -35,12 +33,12 @@ export default function Cart() {
       <GoBackButton />
 
       <ScrollView>
-        {Object.entries(groupedCartItemsByUserName).map(([userName, items], index) => (
+        {Object.entries(groupedCartItemsByUserName).map(([userName, { items, total }], index) => (
           <FlatList
             key={userName}
             ListHeaderComponent={() => <Text className="text-3xl font-bold">Cervezas de {userName}</Text>}
             scrollEnabled={false}
-            data={items.items}
+            data={items}
             keyExtractor={(item) => item.cartItemId?.toString()!}
             renderItem={({ item }) => (
               <View className="flex-row flex-wrap overflow-hidden rounded-xl bg-white shadow-md shadow-black/60">
@@ -71,7 +69,7 @@ export default function Cart() {
             ListFooterComponent={() => (
               <View className="flex-row items-center justify-between px-4">
                 <Text className="text-2xl font-medium">Subtotal</Text>
-                <Text className="text-2xl font-medium">{formatCurrency(items.total)}</Text>
+                <Text className="text-2xl font-medium">{formatCurrency(total)}</Text>
               </View>
             )}
             contentContainerClassName="gap-4 px-4 mb-6"
