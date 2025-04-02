@@ -4,7 +4,7 @@ import type { Tables } from "@/lib/supabase/types";
 import { supabase } from "@/lib/supabase";
 
 export const useCartItemsView = () => {
-  const [cartItems, setCartItems] = useState<Tables<"cart_items_view">[]>([]);
+  const [cartItemsView, setCartItemsView] = useState<Tables<"cart_items_view">[]>([]);
 
   const fetchCartItemsView = useCallback(async () => {
     const { data, error } = await supabase
@@ -13,7 +13,7 @@ export const useCartItemsView = () => {
       .order("cartItemCreatedAt", { ascending: true });
 
     if (!error) {
-      setCartItems(data);
+      setCartItemsView(data);
     }
   }, []);
 
@@ -33,5 +33,5 @@ export const useCartItemsView = () => {
     };
   }, [fetchCartItemsView]);
 
-  return cartItems;
+  return cartItemsView;
 };
