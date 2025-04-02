@@ -1,16 +1,13 @@
 import type { FC } from "react";
-import { useMemo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 
-import { useCartItems } from "@/hooks/useCartItems";
+import { useCartItemsCount } from "@/hooks/cart/useCartItemsCount";
 
 export const CartCountButton: FC = () => {
   const router = useRouter();
-  const cartItems = useCartItems();
-
-  const totalItems = useMemo(() => cartItems.reduce((acc, item) => acc + item.quantity, 0), [cartItems]);
+  const totalItems = useCartItemsCount();
 
   return (
     <TouchableOpacity className="relative p-4" onPress={() => router.push("/(protected)/(tabs)/cart")}>

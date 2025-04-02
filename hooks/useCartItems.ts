@@ -33,7 +33,7 @@ export const useCartItems = () => {
           }
 
           if (payload.eventType === "DELETE") {
-            return prevCartItems.filter((item) => item.id !== payload.old.id);
+            return prevCartItems.filter((item) => item.id !== (payload.old as Tables<"cart_items">).id);
           }
 
           return prevCartItems;

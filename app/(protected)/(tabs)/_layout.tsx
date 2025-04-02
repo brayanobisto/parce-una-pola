@@ -1,8 +1,13 @@
+import { Text, View } from "react-native";
 import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import colors from "tailwindcss/colors";
 
+import { useCartItemsCount } from "@/hooks/cart/useCartItemsCount";
+
 export default function TabsLayout() {
+  const totalItems = useCartItemsCount();
+
   return (
     <Tabs
       backBehavior="history"
@@ -47,7 +52,14 @@ export default function TabsLayout() {
           tabBarLabel: "Carrito",
 
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="shopping-cart" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
+            <View className="relative">
+              <FontAwesome name="shopping-cart" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
+              {totalItems > 0 && (
+                <View className="absolute -right-3 -top-3 h-7 w-7 items-center justify-center rounded-full bg-green-500">
+                  <Text className="text-xs font-medium text-white">{totalItems}</Text>
+                </View>
+              )}
+            </View>
           ),
         }}
       />
