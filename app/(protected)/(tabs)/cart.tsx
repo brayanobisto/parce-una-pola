@@ -4,7 +4,7 @@ import { FlatList, Image, ScrollView, Text, View } from "react-native";
 import { GoBackButton } from "@/components/ui/GoBackButton";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
-import { useCartItemsView } from "@/hooks/userCartItemsView";
+import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
 import { formatCurrency } from "@/utils/currency";
 
 export default function Cart() {
@@ -38,7 +38,7 @@ export default function Cart() {
         {Object.entries(groupedCartItemsByUserName).map(([userName, items], index) => (
           <FlatList
             key={userName}
-            ListHeaderComponent={() => <Text className="text-2xl font-bold">Cervezas de {userName}</Text>}
+            ListHeaderComponent={() => <Text className="text-3xl font-bold">Cervezas de {userName}</Text>}
             scrollEnabled={false}
             data={items.items}
             keyExtractor={(item) => item.cartItemId?.toString()!}

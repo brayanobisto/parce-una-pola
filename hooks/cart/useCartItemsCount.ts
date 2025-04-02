@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { useCartItems } from "@/hooks/useCartItems";
+import { useCartItems } from "@/hooks/cart/useCartItems";
 
 export const useCartItemsCount = () => {
   const cartItems = useCartItems();

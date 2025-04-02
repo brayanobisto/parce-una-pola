@@ -8,8 +8,8 @@ import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
-import { useAddToCart } from "@/hooks/beer/useAddToCart";
 import { useBeer } from "@/hooks/beer/useBeer";
+import { useAddToCart } from "@/hooks/cart/useAddToCart";
 import { formatCurrency } from "@/utils/currency";
 
 export default function Beer() {
