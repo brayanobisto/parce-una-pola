@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { SectionList, Text, View } from "react-native";
 
 import type { Tables } from "@/lib/supabase/types";
@@ -9,42 +9,8 @@ import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/cart/useCartItemsView";
 import { formatCurrency } from "@/utils/currency";
 
-interface GroupedCartItemsByUserName {
-  title: { userName: string };
-  data: Tables<"cart_items_view">[];
-  footer: { subtotal: number };
-}
-
 export default function Cart() {
-  const { data: cartItemsView, isPending: isCartItemsViewPending } = useCartItemsView();
-
-  const { groupedCartItemsByUserName, total } = useMemo(() => {
-    const groupedCartItemsByUserName =
-      cartItemsView?.reduce((acc: GroupedCartItemsByUserName[], item) => {
-        const userName = (item.userData as { name: string }).name;
-
-        const existingUser = acc.find((user) => user.title.userName === userName);
-
-        if (existingUser) {
-          existingUser.data.push(item);
-          existingUser.footer.subtotal += item.beerPrice! * item.cartItemQuantity!;
-        } else {
-          acc.push({
-            title: { userName },
-            data: [item],
-            footer: {
-              subtotal: item.beerPrice! * item.cartItemQuantity!,
-            },
-          });
-        }
-
-        return acc;
-      }, [] as GroupedCartItemsByUserName[]) ?? [];
-
-    const total = groupedCartItemsByUserName?.reduce((acc, item) => acc + item.footer.subtotal, 0) ?? 0;
-
-    return { groupedCartItemsByUserName, total };
-  }, [cartItemsView]);
+  const { groupedCartItemsByUserName, total, isPending: isCartItemsViewPending } = useCartItemsView();
 
   const keyExtractor = useCallback((item: Tables<"cart_items_view">) => item.cartItemId?.toString()!, []);
 
