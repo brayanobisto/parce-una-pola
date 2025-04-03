@@ -4,9 +4,11 @@ import { getCartItems } from "@/lib/supabase/services";
 
 import { useUserCartItemsSuscription } from "./userCartItemsSuscription";
 
+export const QUERY_KEY_CART_ITEMS = "cartItems";
+
 export const useCartItems = () => {
   const cartItemsQuery = useQuery({
-    queryKey: ["cartItems"],
+    queryKey: [QUERY_KEY_CART_ITEMS],
     queryFn: getCartItems,
   });
 
