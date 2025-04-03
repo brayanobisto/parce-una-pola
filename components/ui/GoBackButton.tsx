@@ -12,7 +12,7 @@ export const GoBackButton: FC = () => {
   }, [router]);
 
   return (
-    <TouchableOpacity className="p-4" onPress={handleGoBack}>
+    <TouchableOpacity className="self-start p-4" onPress={handleGoBack}>
       <FontAwesome name="chevron-left" size={24} color="black" />
     </TouchableOpacity>
   );
