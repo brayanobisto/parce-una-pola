@@ -98,3 +98,12 @@ export const removeCartItem = async (cartItemId: number) => {
     throw error;
   }
 };
+
+export const deleteCartItemsByUserId = async (userId: string) => {
+  const { error } = await supabase.from("cart_items").delete().eq("addedBy", userId);
+
+  if (error) {
+    console.error("deleteCartItems error", error);
+    throw error;
+  }
+};
