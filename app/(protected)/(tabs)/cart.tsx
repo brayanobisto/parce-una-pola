@@ -69,7 +69,7 @@ export default function Cart() {
               <Text className="mb-2 text-sm">{formatCurrency(item.beerPrice)}</Text>
 
               <View className="mb-1 flex-row items-center justify-between gap-4">
-                <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} />
+                <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} size="small" />
 
                 <Text className="text-2xl font-medium text-green-500">
                   {formatCurrency(item.beerPrice! * item.cartItemQuantity!)}
