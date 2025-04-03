@@ -4,15 +4,15 @@ import { supabase } from "@/lib/supabase";
 
 interface UseUserCartItemsSuscriptionParams {
   channel: string;
-  callback: () => void;
+  onChanges: () => void;
 }
 
-export const useUserCartItemsSuscription = ({ channel, callback }: UseUserCartItemsSuscriptionParams) => {
+export const useUserCartItemsSuscription = ({ channel, onChanges }: UseUserCartItemsSuscriptionParams) => {
   useEffect(() => {
     const subscription = supabase
       .channel(channel)
       .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
-        callback();
+        onChanges();
       })
       .subscribe();
 

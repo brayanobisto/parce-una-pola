@@ -14,7 +14,7 @@ export const useCartItems = () => {
 
   useUserCartItemsSuscription({
     channel: "cart_items",
-    callback: cartItemsQuery.refetch,
+    onChanges: cartItemsQuery.refetch,
   });
 
   return cartItemsQuery;
