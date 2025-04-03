@@ -18,8 +18,8 @@ export const QuantitySelector: FC<QuantitySelectorProps> = memo(({ quantity, set
   return (
     <View
       className={cn("flex-row items-center", {
-        "w-11": isLargeSize,
-        "w-8": !isLargeSize,
+        "w-[120px]": isLargeSize,
+        "w-[75px]": !isLargeSize,
       })}
     >
       <TouchableOpacity
@@ -29,7 +29,7 @@ export const QuantitySelector: FC<QuantitySelectorProps> = memo(({ quantity, set
         <FontAwesome name="minus" size={iconSize} color="black" />
       </TouchableOpacity>
       <Text
-        className={cn("w-full text-center font-medium", {
+        className={cn("flex-1 text-center font-medium", {
           "text-2xl": isLargeSize,
           "text-base": !isLargeSize,
         })}

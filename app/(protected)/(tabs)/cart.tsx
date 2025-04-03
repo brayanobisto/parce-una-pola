@@ -6,6 +6,7 @@ import { GoBackButton } from "@/components/ui/GoBackButton";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
+import { useUserStore } from "@/store";
 import { formatCurrency } from "@/utils/currency";
 
 interface GroupedCartItemsByUserName {
@@ -16,6 +17,7 @@ interface GroupedCartItemsByUserName {
 
 export default function Cart() {
   const cartItems = useCartItemsView();
+  const user = useUserStore((state) => state.user);
 
   const { groupedCartItemsByUserName, total } = useMemo(() => {
     const groupedCartItemsByUserName = cartItems.reduce((acc: GroupedCartItemsByUserName[], item) => {
@@ -70,7 +72,11 @@ export default function Cart() {
               <Text className="mb-2 text-sm">{formatCurrency(item.beerPrice)}</Text>
 
               <View className="mb-1 flex-row items-center justify-between gap-4">
-                <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} size="small" />
+                {user?.id! === item.cartItemAddedBy ? (
+                  <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} size="small" />
+                ) : (
+                  <Text className="w-[75px] text-center text-base">{item.cartItemQuantity}</Text>
+                )}
 
                 <Text className="text-2xl font-medium text-green-500">
                   {formatCurrency(item.beerPrice! * item.cartItemQuantity!)}
