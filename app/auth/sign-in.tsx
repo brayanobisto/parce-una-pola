@@ -14,7 +14,7 @@ export default function Index() {
   const { mutate: signIn, isPending: isSigningIn } = useSignIn();
 
   const handleSignIn = () => {
-    signIn(`${fullNameForm.name} ${fullNameForm.lastName}`);
+    signIn(`${fullNameForm.name.trim()} ${fullNameForm.lastName.trim()}`);
   };
 
   return (
