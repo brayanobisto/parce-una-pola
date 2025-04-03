@@ -7,7 +7,7 @@ import { cn } from "@/utils/cn";
 
 interface QuantitySelectorProps {
   quantity: number;
-  setQuantity: (quantity: number) => void;
+  setQuantity: (quantity: number) => Promise<void>;
   size?: "small" | "large";
 }
 
@@ -24,7 +24,7 @@ export const QuantitySelector: FC<QuantitySelectorProps> = memo(({ quantity, set
     >
       <TouchableOpacity
         className="rounded-md border border-green-500 bg-transparent p-2"
-        onPress={() => setQuantity(Math.max(quantity - 1, 1))}
+        onPress={async () => await setQuantity(Math.max(quantity - 1, 1))}
       >
         <FontAwesome name="minus" size={iconSize} color="black" />
       </TouchableOpacity>
@@ -38,7 +38,7 @@ export const QuantitySelector: FC<QuantitySelectorProps> = memo(({ quantity, set
       </Text>
       <TouchableOpacity
         className="rounded-md border border-green-500 bg-transparent p-2"
-        onPress={() => setQuantity(quantity + 1)}
+        onPress={async () => await setQuantity(quantity + 1)}
       >
         <FontAwesome name="plus" size={iconSize} color="black" />
       </TouchableOpacity>

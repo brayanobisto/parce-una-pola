@@ -51,3 +51,19 @@ export const addToCart = async (beerId: number, userId: string, quantity: number
     }
   }
 };
+
+export const updateCartItemQuantity = async (cartItemId: number, quantity: number) => {
+  const { error } = await supabase.from("cart_items").update({ quantity }).eq("id", cartItemId);
+
+  if (error) {
+    throw error;
+  }
+};
+
+export const removeCartItem = async (cartItemId: number) => {
+  const { error } = await supabase.from("cart_items").delete().eq("id", cartItemId);
+
+  if (error) {
+    throw error;
+  }
+};

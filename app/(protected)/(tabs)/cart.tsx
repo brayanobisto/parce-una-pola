@@ -6,6 +6,7 @@ import { GoBackButton } from "@/components/ui/GoBackButton";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
+import { removeCartItem, updateCartItemQuantity } from "@/lib/supabase/services";
 import { useUserStore } from "@/store";
 import { formatCurrency } from "@/utils/currency";
 
@@ -73,7 +74,17 @@ export default function Cart() {
 
               <View className="mb-1 flex-row items-center justify-between gap-4">
                 {user?.id! === item.cartItemAddedBy ? (
-                  <QuantitySelector quantity={item.cartItemQuantity!} setQuantity={() => {}} size="small" />
+                  <QuantitySelector
+                    quantity={item.cartItemQuantity!}
+                    setQuantity={async (quantity) => {
+                      if (quantity === 1) {
+                        await removeCartItem(item.cartItemId!);
+                      } else {
+                        await updateCartItemQuantity(item.cartItemId!, quantity);
+                      }
+                    }}
+                    size="small"
+                  />
                 ) : (
                   <Text className="w-[75px] text-center text-base">{item.cartItemQuantity}</Text>
                 )}
