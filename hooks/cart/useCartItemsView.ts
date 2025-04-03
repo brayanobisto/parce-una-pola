@@ -8,7 +8,7 @@ export const QUERY_KEY_CART_ITEMS_VIEW = "cartItemsView";
 
 export const useCartItemsView = () => {
   const cartItemsViewQuery = useQuery({
-    queryKey: ["cartItemsView"],
+    queryKey: [QUERY_KEY_CART_ITEMS_VIEW],
     queryFn: getCartItemsView,
   });
 
