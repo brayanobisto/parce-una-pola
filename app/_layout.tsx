@@ -1,4 +1,5 @@
 import { Fragment, useEffect } from "react";
+import * as LocalAuthentication from "expo-local-authentication";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -14,16 +15,33 @@ export default function RootLayout() {
   const isLoading = useUserStore((state) => state.isLoading);
   const setIsLoading = useUserStore((state) => state.setIsLoading);
   const setUser = useUserStore((state) => state.setUser);
+  const setIsAuthenticatedLocal = useUserStore((state) => state.setIsAuthenticatedLocal);
+  const isAuthenticatedLocal = useUserStore((state) => state.isAuthenticatedLocal);
 
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
+
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+      if (currentUser && !isAuthenticatedLocal && hasHardware && isEnrolled) {
+        const localAuthResult = await LocalAuthentication.authenticateAsync({
+          promptMessage: "Autenticación requerida",
+          fallbackLabel: "Usar contraseña",
+        });
+
+        if (localAuthResult.success) {
+          setIsAuthenticatedLocal(true);
+        }
+      }
+
       setIsLoading(false);
     };
 
     fetchUser();
-  }, [setIsLoading, setUser]);
+  }, [setIsLoading, setUser, setIsAuthenticatedLocal, isAuthenticatedLocal]);
 
   if (isLoading) {
     return <LoadingView />;

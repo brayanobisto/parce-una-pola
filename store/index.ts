@@ -6,6 +6,8 @@ interface UserState {
   setUser: (user: User | null) => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
+  isAuthenticatedLocal: boolean;
+  setIsAuthenticatedLocal: (isAuthenticatedLocal: boolean) => void;
 }
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -13,4 +15,6 @@ export const useUserStore = create<UserState>()((set) => ({
   setUser: (user) => set({ user }),
   isLoading: true,
   setIsLoading: (isLoading) => set({ isLoading }),
+  isAuthenticatedLocal: false,
+  setIsAuthenticatedLocal: (isAuthenticatedLocal) => set({ isAuthenticatedLocal }),
 }));

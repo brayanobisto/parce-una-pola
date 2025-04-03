@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "parce-una-pola",
+    "name": "Parce, una pola",
     "slug": "parce-una-pola",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -36,6 +36,12 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ]
     ],
