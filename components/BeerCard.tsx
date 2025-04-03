@@ -16,7 +16,7 @@ export const BeerCard: FC<BeerCardProps> = memo(({ beer }) => {
 
   return (
     <TouchableOpacity
-      className={`flex-1 flex-row rounded-xl bg-white shadow-sm h-[${CARD_HEIGHT}px]`}
+      className={`flex-row rounded-xl bg-white shadow-sm h-[${CARD_HEIGHT}px] w-full`}
       onPress={() =>
         router.push({
           pathname: "/(protected)/beer/[id]",
