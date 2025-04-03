@@ -80,7 +80,7 @@ export default function Cart() {
         )}
         SectionSeparatorComponent={() => <View className="mb-4 h-[1px] bg-gray-200" />}
         renderSectionHeader={({ section: { title } }) => (
-          <Text className="mb-3 text-3xl font-bold text-green-500">Cervezas de {title.userName}:</Text>
+          <Text className="mb-2 text-3xl font-bold text-green-500">Cervezas de {title.userName}:</Text>
         )}
         renderSectionFooter={({ section: { footer } }) => (
           <View className="mb-6 flex-row items-center justify-between px-4">
