@@ -3,10 +3,12 @@ import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import colors from "tailwindcss/colors";
 
+import { useSignOut } from "@/hooks/auth/useSignOut";
 import { useCartItemsCount } from "@/hooks/cart/useCartItemsCount";
 
 export default function TabsLayout() {
   const totalItems = useCartItemsCount();
+  const { mutate: signOut } = useSignOut();
 
   return (
     <Tabs
@@ -66,10 +68,16 @@ export default function TabsLayout() {
       />
       <Tabs.Screen
         name="profile"
+        listeners={{
+          tabPress: async (e) => {
+            e.preventDefault();
+            await signOut();
+          },
+        }}
         options={{
-          tabBarLabel: "Perfil",
+          tabBarLabel: "Salir",
           tabBarIcon: ({ focused }) => (
-            <FontAwesome name="user" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
+            <FontAwesome name="sign-out" size={24} color={focused ? colors.green[500] : colors.gray[500]} />
           ),
         }}
       />
