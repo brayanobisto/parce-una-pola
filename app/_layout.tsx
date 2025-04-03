@@ -15,8 +15,6 @@ export default function RootLayout() {
   const isLoading = useUserStore((state) => state.isLoading);
   const setIsLoading = useUserStore((state) => state.setIsLoading);
   const setUser = useUserStore((state) => state.setUser);
-  const setIsAuthenticatedLocal = useUserStore((state) => state.setIsAuthenticatedLocal);
-  const isAuthenticatedLocal = useUserStore((state) => state.isAuthenticatedLocal);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,23 +23,26 @@ export default function RootLayout() {
 
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      const canUseLocalAuth = hasHardware && isEnrolled;
 
-      if (currentUser && !isAuthenticatedLocal && hasHardware && isEnrolled) {
-        const localAuthResult = await LocalAuthentication.authenticateAsync({
-          promptMessage: "Autenticación requerida",
-          fallbackLabel: "Usar contraseña",
-        });
+      if (currentUser && canUseLocalAuth) {
+        let isAuthenticatedLocal = false;
 
-        if (localAuthResult.success) {
-          setIsAuthenticatedLocal(true);
-        }
+        do {
+          const localAuthResult = await LocalAuthentication.authenticateAsync({
+            promptMessage: "Autenticación requerida",
+            fallbackLabel: "Usar contraseña",
+          });
+
+          isAuthenticatedLocal = localAuthResult.success;
+        } while (!isAuthenticatedLocal);
       }
 
       setIsLoading(false);
     };
 
     fetchUser();
-  }, [setIsLoading, setUser, setIsAuthenticatedLocal, isAuthenticatedLocal]);
+  }, [setIsLoading, setUser]);
 
   if (isLoading) {
     return <LoadingView />;
