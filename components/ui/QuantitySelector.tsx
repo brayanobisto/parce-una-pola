@@ -31,14 +31,20 @@ export const QuantitySelector: FC<QuantitySelectorProps> = memo(
         >
           <FontAwesome name="minus" size={iconSize} color="black" />
         </TouchableOpacity>
-        <Text
-          className={cn("flex-1 text-center font-medium", {
-            "text-2xl": isLargeSize,
-            "text-base": !isLargeSize,
-          })}
-        >
-          {isLoading ? <ActivityIndicator size="small" color="black" /> : quantity}
-        </Text>
+        {isLoading ? (
+          <View className="flex-1 items-center justify-center">
+            <ActivityIndicator size="small" className="w-6 text-green-500" />
+          </View>
+        ) : (
+          <Text
+            className={cn("flex-1 text-center font-medium", {
+              "text-2xl": isLargeSize,
+              "text-base": !isLargeSize,
+            })}
+          >
+            {quantity}
+          </Text>
+        )}
         <TouchableOpacity
           className="rounded-md border border-green-500 bg-transparent p-2"
           onPress={async () => await setQuantity(quantity + 1)}
