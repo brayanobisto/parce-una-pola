@@ -7,7 +7,7 @@ import { useSignOut } from "@/hooks/auth/useSignOut";
 import { useCartItemsCount } from "@/hooks/cart/useCartItemsCount";
 
 export default function TabsLayout() {
-  const totalItems = useCartItemsCount();
+  const cartItemsCount = useCartItemsCount("tabs_layout");
   const { mutate: signOut } = useSignOut();
 
   return (
@@ -56,9 +56,9 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <View className="relative">
               <FontAwesome name="shopping-cart" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
-              {totalItems > 0 && (
+              {cartItemsCount > 0 && (
                 <View className="absolute -right-3 -top-3 h-7 w-7 items-center justify-center rounded-full bg-green-500">
-                  <Text className="text-xs font-medium text-white">{totalItems}</Text>
+                  <Text className="text-xs font-medium text-white">{cartItemsCount}</Text>
                 </View>
               )}
             </View>

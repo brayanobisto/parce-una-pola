@@ -6,14 +6,14 @@ import { useUserCartItemsSuscription } from "./userCartItemsSuscription";
 
 export const QUERY_KEY_CART_ITEMS = "cartItems";
 
-export const useCartItems = () => {
+export const useCartItems = (channel: string) => {
   const cartItemsQuery = useQuery({
     queryKey: [QUERY_KEY_CART_ITEMS],
     queryFn: getCartItems,
   });
 
   useUserCartItemsSuscription({
-    channel: "cart_items",
+    channel,
     onChanges: cartItemsQuery.refetch,
   });
 

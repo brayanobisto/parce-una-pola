@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { SectionList, Text, View } from "react-native";
 
 import type { Tables } from "@/lib/supabase/types";
-import { CartItemCard } from "@/components/CartItemCard";
+import { CART_ITEM_CARD_HEIGHT, CartItemCard } from "@/components/CartItemCard";
 import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
@@ -59,6 +59,11 @@ export default function Cart() {
         <LoadingView />
       ) : (
         <SectionList
+          getItemLayout={(data, index) => ({
+            length: CART_ITEM_CARD_HEIGHT,
+            offset: CART_ITEM_CARD_HEIGHT * index,
+            index,
+          })}
           sections={groupedCartItemsByUserName}
           keyExtractor={keyExtractor}
           renderItem={renderItem}

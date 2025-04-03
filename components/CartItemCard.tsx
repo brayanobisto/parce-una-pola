@@ -13,6 +13,8 @@ interface BeerCartItemCardProps {
   item: Tables<"cart_items_view">;
 }
 
+export const CART_ITEM_CARD_HEIGHT = 140;
+
 export const CartItemCard = memo(({ item }: BeerCartItemCardProps) => {
   const user = useUserStore((state) => state.user);
   const {
@@ -27,13 +29,15 @@ export const CartItemCard = memo(({ item }: BeerCartItemCardProps) => {
   } = useRemoveCartItem();
 
   return (
-    <View className="mb-4 flex-row flex-wrap rounded-xl bg-white shadow-sm">
+    <View className={`mb-4 flex-row flex-wrap rounded-xl bg-white shadow-sm h-[${CART_ITEM_CARD_HEIGHT}px] w-full`}>
       <Image
         source={{
           uri: item.beerImageUrl!,
         }}
         resizeMode="contain"
-        className="aspect-square h-40 w-40 rounded-l-xl"
+        className="aspect-square rounded-l-xl"
+        height={CART_ITEM_CARD_HEIGHT}
+        width={CART_ITEM_CARD_HEIGHT}
       />
       <View className="flex-1 border-l border-gray-200 p-4">
         <Text className="flex-shrink text-xl font-bold" numberOfLines={2}>

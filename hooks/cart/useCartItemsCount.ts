@@ -2,8 +2,8 @@ import { useMemo } from "react";
 
 import { useCartItems } from "@/hooks/cart/useCartItems";
 
-export const useCartItemsCount = () => {
-  const cartItems = useCartItems();
+export const useCartItemsCount = (channel: string) => {
+  const cartItemsQuery = useCartItems(channel);
 
-  return useMemo(() => cartItems.data?.reduce((acc, item) => acc + item.quantity, 0) ?? 0, [cartItems.data]);
+  return useMemo(() => cartItemsQuery.data?.reduce((acc, item) => acc + item.quantity, 0) ?? 0, [cartItemsQuery.data]);
 };

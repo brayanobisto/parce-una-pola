@@ -7,7 +7,7 @@ import { useCartItemsCount } from "@/hooks/cart/useCartItemsCount";
 
 export const CartCountButton: FC = () => {
   const router = useRouter();
-  const totalItems = useCartItemsCount();
+  const totalItems = useCartItemsCount("cart_count_button");
 
   return (
     <TouchableOpacity className="relative p-4" onPress={() => router.push("/(protected)/(tabs)/cart")}>
