@@ -9,7 +9,7 @@ import { LoadingView } from "@/components/ui/LoadingView";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useBeer } from "@/hooks/beer/useBeer";
-import { useAddToCart } from "@/hooks/cart/useAddToCart";
+import { useAddToCart } from "@/hooks/cart/useAddCartItem";
 import { formatCurrency } from "@/utils/currency";
 
 export default function Beer() {
@@ -45,7 +45,7 @@ export default function Beer() {
             <Text className="font-medium text-green-500">Precio</Text>
           </View>
           <View className="mb-4 flex-row items-center justify-between">
-            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+            <QuantitySelector quantity={quantity} setQuantity={async (quantity) => setQuantity(quantity)} />
             <Text className="text-2xl font-medium">{formatCurrency(beer?.price)}</Text>
           </View>
 

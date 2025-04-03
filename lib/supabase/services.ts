@@ -44,7 +44,7 @@ export const getCartItemsView = async (): Promise<Tables<"cart_items_view">[]> =
   return data;
 };
 
-export const addToCart = async (beerId: number, userId: string, quantity: number) => {
+export const addCartItem = async (beerId: number, userId: string, quantity: number) => {
   const { data: cartItem } = await supabase
     .from("cart_items")
     .select("quantity")
