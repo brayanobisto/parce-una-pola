@@ -53,7 +53,6 @@ export default function TabsLayout() {
         name="cart"
         options={{
           tabBarLabel: "Carrito",
-
           tabBarIcon: ({ focused }) => (
             <View className="relative">
               <FontAwesome name="shopping-cart" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
