@@ -3,11 +3,12 @@ import { Image, SectionList, Text, View } from "react-native";
 
 import type { Tables } from "@/lib/supabase/types";
 import { GoBackButton } from "@/components/ui/GoBackButton";
+import { LoadingView } from "@/components/ui/LoadingView";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
+import { useRemoveCartItem } from "@/hooks/cart/useRemoveCartItem";
 import { useUpdateCartItemQuantity } from "@/hooks/cart/useUpdateCartItemQuantity";
-import { removeCartItem } from "@/lib/supabase/services";
 import { useUserStore } from "@/store";
 import { formatCurrency } from "@/utils/currency";
 
@@ -18,12 +19,13 @@ interface GroupedCartItemsByUserName {
 }
 
 export default function Cart() {
-  const cartItems = useCartItemsView();
   const user = useUserStore((state) => state.user);
+  const { data: cartItemsView, isPending: isCartItemsViewPending } = useCartItemsView();
   const { mutate: updateCartItemQuantity, isPending: isUpdatingCartItemQuantity } = useUpdateCartItemQuantity();
+  const { mutate: removeCartItem, isPending: isRemovingCartItem } = useRemoveCartItem();
 
   const { groupedCartItemsByUserName, total } = useMemo(() => {
-    const groupedCartItemsByUserName = cartItems.data?.reduce((acc: GroupedCartItemsByUserName[], item) => {
+    const groupedCartItemsByUserName = cartItemsView?.reduce((acc: GroupedCartItemsByUserName[], item) => {
       const userName = (item.userData as { name: string }).name;
 
       const existingUser = acc.find((user) => user.title.userName === userName);
@@ -47,7 +49,11 @@ export default function Cart() {
     const total = groupedCartItemsByUserName?.reduce((acc, item) => acc + item.footer.subtotal, 0) ?? 0;
 
     return { groupedCartItemsByUserName, total };
-  }, [cartItems.data]);
+  }, [cartItemsView]);
+
+  if (isCartItemsViewPending) {
+    return <LoadingView />;
+  }
 
   return (
     <SafeAreaView>
@@ -76,10 +82,10 @@ export default function Cart() {
                 {user?.id! === item.cartItemAddedBy ? (
                   <QuantitySelector
                     quantity={item.cartItemQuantity!}
-                    isLoading={isUpdatingCartItemQuantity}
+                    isLoading={isUpdatingCartItemQuantity || isRemovingCartItem}
                     setQuantity={async (quantity) => {
                       if (quantity === 1) {
-                        removeCartItem(item.cartItemId!);
+                        removeCartItem({ cartItemId: item.cartItemId! });
                       } else {
                         updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
                       }

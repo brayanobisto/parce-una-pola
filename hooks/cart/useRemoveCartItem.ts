@@ -1,13 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { updateCartItemQuantity } from "@/lib/supabase/services";
+import { removeCartItem } from "@/lib/supabase/services";
 
-export const useUpdateCartItemQuantity = () => {
+export const useRemoveCartItem = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ cartItemId, quantity }: { cartItemId: number; quantity: number }) =>
-      updateCartItemQuantity(cartItemId, quantity),
+    mutationFn: ({ cartItemId }: { cartItemId: number }) => removeCartItem(cartItemId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cartItems", "cartItemsView"] });
     },
