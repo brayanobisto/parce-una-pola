@@ -31,6 +31,19 @@ export const getCartItems = async (): Promise<Tables<"cart_items">[]> => {
   return data;
 };
 
+export const getCartItemsView = async (): Promise<Tables<"cart_items_view">[]> => {
+  const { data, error } = await supabase
+    .from("cart_items_view")
+    .select("*")
+    .order("cartItemCreatedAt", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 export const addToCart = async (beerId: number, userId: string, quantity: number) => {
   const { data: cartItem } = await supabase
     .from("cart_items")
