@@ -21,6 +21,16 @@ export const getBeerById = async (id: number): Promise<Tables<"beers"> | null> =
   return data;
 };
 
+export const getCartItems = async (): Promise<Tables<"cart_items">[]> => {
+  const { data, error } = await supabase.from("cart_items").select("*");
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 export const addToCart = async (beerId: number, userId: string, quantity: number) => {
   const { data: cartItem } = await supabase
     .from("cart_items")

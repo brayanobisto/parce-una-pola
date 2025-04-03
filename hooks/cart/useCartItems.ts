@@ -2,22 +2,20 @@ import { useEffect, useState } from "react";
 
 import type { Tables } from "@/lib/supabase/types";
 import { supabase } from "@/lib/supabase";
+import { getCartItems } from "@/lib/supabase/services";
 
 export const useCartItems = () => {
   const [cartItems, setCartItems] = useState<Tables<"cart_items">[]>([]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
-      const { data, error } = await supabase.from("cart_items").select("*");
+      const data = await getCartItems();
 
-      if (!error) {
-        setCartItems(data);
-      }
+      setCartItems(data);
     };
 
     fetchCartItems();
 
-    // Escuchar cambios en la tabla cart_items
     const subscription = supabase
       .channel("cart_items")
       .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
