@@ -53,16 +53,16 @@ export default function Cart() {
         sections={groupedCartItemsByUserName}
         keyExtractor={(item) => item.cartItemId?.toString()!}
         renderItem={({ item }) => (
-          <View className="mb-4 flex-row flex-wrap overflow-hidden rounded-xl bg-white shadow-md shadow-black/60">
+          <View className="mb-4 flex-row flex-wrap rounded-xl bg-white shadow-sm">
             <Image
               source={{
                 uri: item.beerImageUrl!,
               }}
               resizeMode="contain"
-              className="aspect-square h-36 w-36"
+              className="aspect-square h-40 w-40 rounded-l-xl"
             />
             <View className="flex-1 border-l border-gray-200 p-4">
-              <Text className="flex-shrink text-xl font-bold" numberOfLines={1}>
+              <Text className="flex-shrink text-xl font-bold" numberOfLines={2}>
                 {item.beerName}
               </Text>
               <Text className="text-gray-500">{item.beerBrand}</Text>
@@ -92,9 +92,10 @@ export default function Cart() {
         ListFooterComponent={() => (
           <View className="mb-8 flex-row items-center justify-between border-t border-t-gray-300 p-4">
             <Text className="text-2xl font-medium">Total</Text>
-            <Text className="text-2xl font-medium">{formatCurrency(total)}</Text>
+            <Text className="text-2xl font-bold">{formatCurrency(total)}</Text>
           </View>
         )}
+        stickySectionHeadersEnabled={false}
       />
     </SafeAreaView>
   );
