@@ -9,7 +9,7 @@ import { LoadingView } from "@/components/ui/LoadingView";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useBeer } from "@/hooks/beer/useBeer";
-import { useAddToCart } from "@/hooks/cart/useAddCartItem";
+import { useAddCartItem } from "@/hooks/cart/useAddCartItem";
 import { formatCurrency } from "@/utils/currency";
 
 export default function Beer() {
@@ -17,10 +17,10 @@ export default function Beer() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { data: beer, isPending: isBeerPending } = useBeer(id);
-  const { mutate: addToCart, isPending: isAddingToCart } = useAddToCart();
+  const { mutate: addCartItem, isPending: isAddingToCart } = useAddCartItem();
 
   const handleAddToCart = () => {
-    addToCart({ beerId: Number(id), quantity });
+    addCartItem({ beerId: Number(id), quantity });
   };
 
   if (isBeerPending) return <LoadingView />;
