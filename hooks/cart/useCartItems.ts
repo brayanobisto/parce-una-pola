@@ -1,8 +1,8 @@
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { supabase } from "@/lib/supabase";
 import { getCartItems } from "@/lib/supabase/services";
+
+import { useUserCartItemsSuscription } from "./userCartItemsSuscription";
 
 export const useCartItems = () => {
   const cartItemsQuery = useQuery({
@@ -10,18 +10,10 @@ export const useCartItems = () => {
     queryFn: getCartItems,
   });
 
-  useEffect(() => {
-    const subscription = supabase
-      .channel("cart_items")
-      .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
-        cartItemsQuery.refetch();
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useUserCartItemsSuscription({
+    channel: "cart_items",
+    callback: cartItemsQuery.refetch,
+  });
 
   return cartItemsQuery;
 };
