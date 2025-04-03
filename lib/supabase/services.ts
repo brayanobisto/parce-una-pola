@@ -49,17 +49,12 @@ export const getCartItemsView = async (): Promise<Tables<"cart_items_view">[]> =
 };
 
 export const addCartItem = async (beerId: number, userId: string, quantity: number) => {
-  const { data: cartItem, error: getCartItemError } = await supabase
+  const { data: cartItem } = await supabase
     .from("cart_items")
     .select("quantity")
     .eq("addedBy", userId)
     .eq("beerId", beerId)
     .single();
-
-  if (getCartItemError) {
-    console.error("addCartItem error", getCartItemError);
-    throw getCartItemError;
-  }
 
   const newQuantity = (cartItem?.quantity ?? 0) + quantity;
 

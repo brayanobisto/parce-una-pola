@@ -21,7 +21,7 @@ export const useCartItems = () => {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [cartItemsQuery]);
+  }, []);
 
   return cartItemsQuery;
 };
