@@ -40,6 +40,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="orders"
         options={{
+          href: null,
           tabBarLabel: "Pedidos",
           tabBarIcon: ({ focused }) => (
             <FontAwesome name="file-text" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
@@ -67,7 +68,6 @@ export default function TabsLayout() {
         name="profile"
         options={{
           tabBarLabel: "Perfil",
-
           tabBarIcon: ({ focused }) => (
             <FontAwesome name="user" size={27} color={focused ? colors.green[500] : colors.gray[500]} />
           ),

@@ -14,14 +14,20 @@ export default function RootLayout() {
   const isLoading = useUserStore((state) => state.isLoading);
   const setIsLoading = useUserStore((state) => state.setIsLoading);
   const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+
+  // console.log("user", user);
+  // console.log("isLoading", isLoading);
 
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getCurrentUser();
-
+      console.log("currentUser", currentUser);
       setUser(currentUser);
       setIsLoading(false);
+      console.log("currentUser", currentUser);
     };
+
     fetchUser();
   }, [setIsLoading, setUser]);
 

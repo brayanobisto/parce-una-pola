@@ -7,7 +7,7 @@ export const getCurrentUser = async () => {
   } = await supabase.auth.getUser();
 
   if (error) {
-    throw error;
+    console.error("getCurrentUser error", error);
   }
 
   return user;
@@ -17,7 +17,7 @@ export const signInAnonymously = async (name: string) => {
   const { error: signInError } = await supabase.auth.signInAnonymously();
 
   if (signInError) {
-    throw signInError;
+    console.error("signInAnonymously error", signInError);
   }
 
   const {
@@ -30,16 +30,16 @@ export const signInAnonymously = async (name: string) => {
   });
 
   if (updateError) {
-    throw updateError;
+    console.error("updateUser error", updateError);
   }
 
   return user;
 };
 
 export const signOut = async () => {
-  const { error: signOutError } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
 
-  if (signOutError) {
-    throw signOutError;
+  if (error) {
+    console.error("signOut error", error);
   }
 };
