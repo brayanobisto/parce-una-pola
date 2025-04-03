@@ -9,7 +9,7 @@ export const useUpdateCartItemQuantity = () => {
     mutationFn: ({ cartItemId, quantity }: { cartItemId: number; quantity: number }) =>
       updateCartItemQuantity(cartItemId, quantity),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cartItems", "cartItemsView"] });
+      queryClient.refetchQueries({ queryKey: ["cartItems", "cartItemsView"] });
     },
   });
 };

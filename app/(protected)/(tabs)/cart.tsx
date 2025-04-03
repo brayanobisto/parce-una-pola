@@ -6,7 +6,7 @@ import { GoBackButton } from "@/components/ui/GoBackButton";
 import { LoadingView } from "@/components/ui/LoadingView";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
-import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
+import { useCartItemsView } from "@/hooks/cart/useCartItemsView";
 import { useRemoveCartItem } from "@/hooks/cart/useRemoveCartItem";
 import { useUpdateCartItemQuantity } from "@/hooks/cart/useUpdateCartItemQuantity";
 import { useUserStore } from "@/store";
@@ -85,9 +85,9 @@ export default function Cart() {
                     isLoading={isUpdatingCartItemQuantity || isRemovingCartItem}
                     setQuantity={async (quantity) => {
                       if (quantity === 1) {
-                        removeCartItem({ cartItemId: item.cartItemId! });
+                        await removeCartItem({ cartItemId: item.cartItemId! });
                       } else {
-                        updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
+                        await updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
                       }
                     }}
                     size="small"

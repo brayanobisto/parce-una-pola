@@ -12,7 +12,7 @@ export const useCartItemsView = () => {
 
   useEffect(() => {
     const subscription = supabase
-      .channel("cart_items")
+      .channel("cart_items_view")
       .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
         cartItemsViewQuery.refetch();
       })
@@ -21,7 +21,7 @@ export const useCartItemsView = () => {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [cartItemsViewQuery]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return cartItemsViewQuery;
 };

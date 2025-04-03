@@ -21,7 +21,7 @@ export const useCartItems = () => {
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return cartItemsQuery;
 };
