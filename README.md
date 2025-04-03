@@ -10,7 +10,14 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
-2. Start the app
+2. Create a `.env` file in the root of the project and add the following:
+
+   ```bash
+   EXPO_PUBLIC_SUPABASE_URL=
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=
+   ```
+
+3. Start the app
 
    ```bash
     npx expo start
