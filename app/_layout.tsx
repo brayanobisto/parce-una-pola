@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 import { LoadingView } from "@/components/ui/LoadingView";
-import { supabase } from "@/lib/supabase";
+import { getCurrentUser } from "@/lib/supabase/auth";
 import { queryClient } from "@/lib/tanstack-query";
 import { useUserStore } from "@/store";
 
@@ -17,11 +17,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const currentUser = await getCurrentUser();
 
-      setUser(user);
+      setUser(currentUser);
       setIsLoading(false);
     };
     fetchUser();
