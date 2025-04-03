@@ -1,32 +1,27 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import type { Tables } from "@/lib/supabase/types";
 import { supabase } from "@/lib/supabase";
 import { getCartItemsView } from "@/lib/supabase/services";
 
 export const useCartItemsView = () => {
-  const [cartItemsView, setCartItemsView] = useState<Tables<"cart_items_view">[]>([]);
-
-  const fetchCartItemsView = useCallback(async () => {
-    const data = await getCartItemsView();
-
-    setCartItemsView(data);
-  }, []);
+  const cartItemsViewQuery = useQuery({
+    queryKey: ["cartItemsView"],
+    queryFn: getCartItemsView,
+  });
 
   useEffect(() => {
-    fetchCartItemsView();
-
     const subscription = supabase
       .channel("cart_items")
       .on("postgres_changes", { event: "*", schema: "public", table: "cart_items" }, (payload) => {
-        fetchCartItemsView();
+        cartItemsViewQuery.refetch();
       })
       .subscribe();
 
     return () => {
       supabase.removeChannel(subscription);
     };
-  }, [fetchCartItemsView]);
+  }, [cartItemsViewQuery]);
 
-  return cartItemsView;
+  return cartItemsViewQuery;
 };

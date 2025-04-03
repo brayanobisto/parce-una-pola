@@ -14,15 +14,16 @@ import { formatCurrency } from "@/utils/currency";
 interface GroupedCartItemsByUserName {
   title: { userName: string };
   data: Tables<"cart_items_view">[];
-  footer: { subtotal: number; total: number };
+  footer: { subtotal: number };
 }
 
 export default function Cart() {
   const cartItems = useCartItemsView();
   const user = useUserStore((state) => state.user);
   const { mutate: updateCartItemQuantity, isPending: isUpdatingCartItemQuantity } = useUpdateCartItemQuantity();
+
   const { groupedCartItemsByUserName, total } = useMemo(() => {
-    const groupedCartItemsByUserName = cartItems.reduce((acc: GroupedCartItemsByUserName[], item) => {
+    const groupedCartItemsByUserName = cartItems.data?.reduce((acc: GroupedCartItemsByUserName[], item) => {
       const userName = (item.userData as { name: string }).name;
 
       const existingUser = acc.find((user) => user.title.userName === userName);
@@ -30,14 +31,12 @@ export default function Cart() {
       if (existingUser) {
         existingUser.data.push(item);
         existingUser.footer.subtotal += item.beerPrice! * item.cartItemQuantity!;
-        existingUser.footer.total += item.beerPrice! * item.cartItemQuantity!;
       } else {
         acc.push({
           title: { userName },
           data: [item],
           footer: {
             subtotal: item.beerPrice! * item.cartItemQuantity!,
-            total: item.beerPrice! * item.cartItemQuantity!,
           },
         });
       }
@@ -45,17 +44,17 @@ export default function Cart() {
       return acc;
     }, [] as GroupedCartItemsByUserName[]);
 
-    const total = groupedCartItemsByUserName.reduce((acc, item) => acc + item.footer.total, 0);
+    const total = groupedCartItemsByUserName?.reduce((acc, item) => acc + item.footer.subtotal, 0) ?? 0;
 
     return { groupedCartItemsByUserName, total };
-  }, [cartItems]);
+  }, [cartItems.data]);
 
   return (
     <SafeAreaView>
       <GoBackButton />
 
       <SectionList
-        sections={groupedCartItemsByUserName}
+        sections={groupedCartItemsByUserName ?? []}
         keyExtractor={(item) => item.cartItemId?.toString()!}
         renderItem={({ item }) => (
           <View className="mb-4 flex-row flex-wrap rounded-xl bg-white shadow-sm">
@@ -80,9 +79,9 @@ export default function Cart() {
                     isLoading={isUpdatingCartItemQuantity}
                     setQuantity={async (quantity) => {
                       if (quantity === 1) {
-                        await removeCartItem(item.cartItemId!);
+                        removeCartItem(item.cartItemId!);
                       } else {
-                        await updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
+                        updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
                       }
                     }}
                     size="small"
