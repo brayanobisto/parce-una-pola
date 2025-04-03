@@ -6,7 +6,8 @@ import { GoBackButton } from "@/components/ui/GoBackButton";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import { SafeAreaView } from "@/components/ui/SafeAreaView";
 import { useCartItemsView } from "@/hooks/cart/userCartItemsView";
-import { removeCartItem, updateCartItemQuantity } from "@/lib/supabase/services";
+import { useUpdateCartItemQuantity } from "@/hooks/cart/useUpdateCartItemQuantity";
+import { removeCartItem } from "@/lib/supabase/services";
 import { useUserStore } from "@/store";
 import { formatCurrency } from "@/utils/currency";
 
@@ -19,7 +20,7 @@ interface GroupedCartItemsByUserName {
 export default function Cart() {
   const cartItems = useCartItemsView();
   const user = useUserStore((state) => state.user);
-
+  const { mutate: updateCartItemQuantity, isPending: isUpdatingCartItemQuantity } = useUpdateCartItemQuantity();
   const { groupedCartItemsByUserName, total } = useMemo(() => {
     const groupedCartItemsByUserName = cartItems.reduce((acc: GroupedCartItemsByUserName[], item) => {
       const userName = (item.userData as { name: string }).name;
@@ -76,11 +77,12 @@ export default function Cart() {
                 {user?.id! === item.cartItemAddedBy ? (
                   <QuantitySelector
                     quantity={item.cartItemQuantity!}
+                    isLoading={isUpdatingCartItemQuantity}
                     setQuantity={async (quantity) => {
                       if (quantity === 1) {
                         await removeCartItem(item.cartItemId!);
                       } else {
-                        await updateCartItemQuantity(item.cartItemId!, quantity);
+                        await updateCartItemQuantity({ cartItemId: item.cartItemId!, quantity });
                       }
                     }}
                     size="small"
