@@ -49,6 +49,7 @@ export default function Cart() {
   return (
     <SafeAreaView>
       <GoBackButton />
+
       <SectionList
         sections={groupedCartItemsByUserName}
         keyExtractor={(item) => item.cartItemId?.toString()!}
@@ -89,13 +90,20 @@ export default function Cart() {
           </View>
         )}
         className="p-4"
-        ListFooterComponent={() => (
-          <View className="mb-8 flex-row items-center justify-between border-t border-t-gray-300 p-4">
-            <Text className="text-2xl font-medium">Total</Text>
-            <Text className="text-2xl font-bold">{formatCurrency(total)}</Text>
+        ListFooterComponent={() =>
+          total > 0 ? (
+            <View className="mb-8 flex-row items-center justify-between border-t border-t-gray-300 p-4">
+              <Text className="text-2xl font-medium">Total</Text>
+              <Text className="text-2xl font-bold">{formatCurrency(total)}</Text>
+            </View>
+          ) : null
+        }
+        stickySectionHeadersEnabled={false}
+        ListEmptyComponent={() => (
+          <View className="flex-1 items-center justify-center">
+            <Text className="text-2xl font-medium">No hay cervezas en el carrito</Text>
           </View>
         )}
-        stickySectionHeadersEnabled={false}
       />
     </SafeAreaView>
   );
